@@ -87,6 +87,19 @@
 #define ELAPSED                 1
 #define NOT_ELAPSED             0
 
+//Macros for analog value (12 bits)
+#define MIN_ANALOG_VALUE_12b    0
+#define MAX_ANALOG_VALUE_12 b   4095
+
 //Macros for analog value (10 bits)
-#define MIN_ANALOG_VALUE        0
-#define MAX_ANALOG_VALUE        1023
+#define MIN_ANALOG_VALUE_10b    0
+#define MAX_ANALOG_VALUE_10b    1023
+
+//Macros for analog value (8 bits)
+#define MIN_ANALOG_VALUE_8b     0
+#define MAX_ANALOG_VALUE_8b     255
+
+#define IS_OUTPUT_STATE_VALID (STATE)          (((STATE) == ON) || \
+                                                ((STATE) == OFF))
+
+
