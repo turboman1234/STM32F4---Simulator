@@ -1,4 +1,3 @@
-#include "stm32f4xx_conf.h"
 #include "adc.h"
 
 //ADC1 initianilize
@@ -88,22 +87,25 @@ void Init_ADC3(void)
     ADC_SoftwareStartConv(ADC3);
 }
 
-//Get ADC1 Value
-u16 GetADCValue(int chan)
+//Get ADCx Value
+u16 GetADCValue(ADC_TypeDef* ADCx, int channel)
 {
     u16 res;
-    ADC_RegularChannelConfig(ADC1, chan, 1, ADC_SampleTime_56Cycles);
     
-    ADC_Cmd(ADC1, ENABLE);
-    ADC_SoftwareStartConv(ADC1);
+    //set chanelXX from ADCx with wanted sample time
+    //ADC sample time = (1 / APB2frequency ) * ADCcyclesCount;
+    ADC_RegularChannelConfig(ADCx, channel, 1, ADC_SampleTime_56Cycles);
     
-    while (ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC) != SET);
+    ADC_Cmd(ADCx, ENABLE);
+    ADC_SoftwareStartConv(ADCx);
     
-    ADC_ClearFlag(ADC1, ADC_FLAG_EOC);
+    while (ADC_GetFlagStatus(ADCx, ADC_FLAG_EOC) != SET);
     
-    res = ADC_GetConversionValue(ADC1);
+    ADC_ClearFlag(ADCx, ADC_FLAG_EOC);
     
-    ADC_Cmd(ADC1, DISABLE);
+    res = ADC_GetConversionValue(ADCx);
+    
+    ADC_Cmd(ADCx, DISABLE);
     
     return res;
 }
