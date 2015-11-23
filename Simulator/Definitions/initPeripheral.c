@@ -1,14 +1,14 @@
-#include "stm32f4xx_conf.h"
-#include "definitions.h"
+#include "initPeripheral.h"
 #include "adc.h"
+#include "dac.h"
 
 
 /* Configure GPIO pin as button input */
 void InitButton(int buttonID)
 {
-    GPIO_InitTypeDef GPIO_InitStructure;
-    
     assert_param(IS_BUTTON_ID_VALID(buttonID));
+    
+    GPIO_InitTypeDef GPIO_InitStructure;
     
     switch (buttonID)
     {
@@ -108,10 +108,10 @@ void InitButton(int buttonID)
 /* Configure GPIO pin as LED output */
 void InitLED(int ledID)
 {
-    GPIO_InitTypeDef GPIO_InitStructure;
-    
     assert_param(IS_LED_ID_VALID(ledID));
-    
+ 
+    GPIO_InitTypeDef GPIO_InitStructure;
+       
     switch (ledID)
     {
     case LED_1:
@@ -223,13 +223,48 @@ void InitLED(int ledID)
     }
 }
 
+void InitSwitch(int switchID)
+{
+    assert_param(IS_SWITCH_ID_VALID(switchID));
+    
+    GPIO_InitTypeDef GPIO_InitStructure;
+    
+    switch (switchID)
+    {
+    case SWITCH_1:
+        
+        /* SWITCH_1 ----> pin PE1 */
+        RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE, ENABLE);
+        
+        GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+        GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
+        
+        GPIO_Init(GPIOE, &GPIO_InitStructure);
+        
+        break;
+        
+    case SWITCH_2:
+        /* SWITCH_2 ----> pin PE0 */
+        RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE, ENABLE);
+        
+        GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+        GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+        
+        GPIO_Init(GPIOE, &GPIO_InitStructure);
+        
+        break;
+    }        
+}
+
 /* Configure GPIO pin as digital input */
 void InitInput(int inputID)
 {
-    GPIO_InitTypeDef GPIO_InitStructure;
-    
     assert_param(IS_INPUT_ID_VALID(inputID));
     
+    GPIO_InitTypeDef GPIO_InitStructure;
+        
     switch (inputID)
     {
     case INPUT_1:
@@ -420,9 +455,9 @@ void InitInput(int inputID)
 /* Configure GPIO pin as digital output */
 void InitOutput(int outputID)
 {
-    GPIO_InitTypeDef GPIO_InitStructure;
-    
     assert_param(IS_OUTPUT_ID_VALID(outputID));
+ 
+    GPIO_InitTypeDef GPIO_InitStructure;
     
     switch (outputID)
     {
@@ -730,28 +765,18 @@ void InitADC(int adcID)
     }
 }
 
-void InitDAC(int dacID)
+void InitDAC(int dacID, int initValue)
 {
     assert_param(IS_DAC_ID_VALID(dacID));
     
     GPIO_InitTypeDef GPIO_InitStructure;
-    DAC_InitTypeDef  DAC_InitStructure;
-   
+    
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
     GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
     
     //Set GPIOA clock
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
-    
-    //Set DAC clock
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_DAC, ENABLE);
-    
-    /* DAC channel1 Configuration */
-    DAC_InitStructure.DAC_Trigger = DAC_Trigger_None;
-    DAC_InitStructure.DAC_WaveGeneration = DAC_WaveGeneration_None;
-    DAC_InitStructure.DAC_OutputBuffer = DAC_OutputBuffer_Enable;
-    
-    
+
     switch(dacID)
     {
     case DAC_1:        
@@ -760,9 +785,7 @@ void InitDAC(int dacID)
         GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
         GPIO_Init(GPIOA, &GPIO_InitStructure);
         
-        DAC_Init(DAC_Channel_1, &DAC_InitStructure);
-        DAC_Cmd(DAC_Channel_1, ENABLE);
-        DAC_SetChannel1Data(DAC_Align_12b_R, 0x0000);
+        Init_DAC_1(initValue);
         break;
         
     case DAC_2:
@@ -771,10 +794,10 @@ void InitDAC(int dacID)
         GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
         GPIO_Init(GPIOA, &GPIO_InitStructure);
         
-        DAC_Init(DAC_Channel_2, &DAC_InitStructure);
-        DAC_Cmd(DAC_Channel_2, ENABLE);
-        DAC_SetChannel2Data(DAC_Align_12b_R, 0x0000);
+        Init_DAC_2(initValue);
         break;
     }
 }
+
+
 

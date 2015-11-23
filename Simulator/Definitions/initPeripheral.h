@@ -1,3 +1,4 @@
+#include "stm32f4xx_conf.h"
 #include "definitions.h"
 
 #define IS_BUTTON_ID_VALID (BUTTON_ID)         (((BUTTON_ID) == BUTTON_1) || \
@@ -73,7 +74,9 @@
 
 void InitButton(int buttonID);
 void InitLED(int ledID);
+void InitSwitch(int switchID);
 void InitInput(int inputID);
 void InitOutput(int outputID);
 void InitTrimmer(int trimmerID);
 void InitADC(int adcID);
+void InitDAC(int dacID, int initValue);
