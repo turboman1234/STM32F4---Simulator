@@ -211,7 +211,7 @@ int GetTrimmerValue(int trimmerNumber)
     assert_param(IS_TRIMMER_ID_VALID(trimmerNumber));
     
     u16 trimmerValue;
-    
+        
     switch (trimmerNumber)
     {
     case TRIMMER_1:
@@ -343,10 +343,14 @@ void SetAnalogOutput(int dacOutput, int value)
         switch(dacOutput)
         {
         case DAC_1:
-            DAC_SetChannel1Data(DAC_Channel_1, value);
+            DAC_SoftwareTriggerCmd(DAC_Channel_1, DISABLE);
+            DAC_SetChannel1Data(DAC_Align_12b_R, value);
+            DAC_SoftwareTriggerCmd(DAC_Channel_1, ENABLE);
             break;
         case DAC_2:
-            DAC_SetChannel1Data(DAC_Channel_2, value);
+            DAC_SoftwareTriggerCmd(DAC_Channel_2, DISABLE);
+            DAC_SetChannel2Data(DAC_Align_12b_R, value);
+            DAC_SoftwareTriggerCmd(DAC_Channel_2, ENABLE);
             break;
         }
     }
