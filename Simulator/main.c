@@ -2,35 +2,32 @@
 #include "stm32f4xx_conf.h"
 #include "stm32f4_discovery.h"
 #include "rcc.h"
+#include "definitions.h"
+#include "initPeripheral.h"
+#include "userLibrary.h"
 
 extern RCC_ClocksTypeDef MYCLOCKS;
 
+int trimmerValue, dacValue = 0;
+float volts = 0.0;
+
 int main()
 {
-    int ledID = 0, state = 0, buttonState = 0;
-    
     InitRCC();
-    
-    STM_EVAL_PBInit(BUTTON_USER, BUTTON_MODE_GPIO);
-    STM_EVAL_LEDInit(LED4);
-    STM_EVAL_LEDInit(LED5);
-    STM_EVAL_LEDInit(LED6);
-    STM_EVAL_LEDInit(LED3);
+        
+    //ADC test
+    InitTrimmer(TRIMMER_1);
+    InitDAC(DAC_2, MIN_ANALOG_VALUE_12b);
         
     while(1)
     {
-        buttonState = STM_EVAL_PBGetState(BUTTON_USER);
-        if(buttonState && state == 0)
-        {
-            STM_EVAL_LEDOn(LED4);
-            state = 1;
-        }
         
-        buttonState = STM_EVAL_PBGetState(BUTTON_USER);
-        if(buttonState && state == 1)
-        {
-            STM_EVAL_LEDOff(LED4);
-            state = 0;
-        }
-    }
+        trimmerValue = GetTrimmerValue(TRIMMER_1);
+        
+        SetAnalogOutput(DAC_2, trimmerValue * 4);
+        
+        dacValue = GetAnalogOutput(DAC_2);
+        
+        volts = 2.979 * ((float)dacValue / (float)MAX_ANALOG_VALUE_12b);
+    }      
 }
