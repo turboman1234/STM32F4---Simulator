@@ -89,7 +89,7 @@
 
 //Macros for analog value (12 bits)
 #define MIN_ANALOG_VALUE_12b    0
-#define MAX_ANALOG_VALUE_12 b   4095
+#define MAX_ANALOG_VALUE_12b   4095
 
 //Macros for analog value (10 bits)
 #define MIN_ANALOG_VALUE_10b    0
