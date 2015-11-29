@@ -71,9 +71,27 @@
 #define DAC_1                   56
 #define DAC_2                   57
 
+//TIMERS
+#define TIMER_1                 58
+#define TIMER_2                 59
+#define TIMER_3                 60
+#define TIMER_4                 61
+#define TIMER_5                 62
+#define TIMER_6                 63
+#define TIMER_7                 64
+#define TIMER_8                 65
+#define TIMER_9                 66
+#define TIMER_10                67
+#define TIMER_11                68
+#define TIMER_12                69
+#define TIMER_13                70
+#define TIMER_14                71
+#define TIMER_15                72
+#define TIMER_16                73
+
 //UART2
-#define U2_Rx                   58
-#define U2_Tx                   59
+#define U2_Rx                   74
+#define U2_Tx                   75
 
 //Macros for digital IO, switches, LEDs
 #define ON                      1
@@ -102,4 +120,19 @@
 #define IS_OUTPUT_STATE_VALID (STATE)          (((STATE) == ON) || \
                                                 ((STATE) == OFF))
 
-
+#define IS_TIMER_ID_VALID (TIMER_ID)           (((TIMER_ID) == TIMER_1)   || \
+                                                ((TIMER_ID) == TIMER_2)   || \
+                                                ((TIMER_ID) == TIMER_3)   || \
+                                                ((TIMER_ID) == TIMER_4)   || \
+                                                ((TIMER_ID) == TIMER_5)   || \
+                                                ((TIMER_ID) == TIMER_6)   || \
+                                                ((TIMER_ID) == TIMER_7)   || \
+                                                ((TIMER_ID) == TIMER_8)   || \
+                                                ((TIMER_ID) == TIMER_9)   || \
+                                                ((TIMER_ID) == TIMER_10)  || \
+                                                ((TIMER_ID) == TIMER_11)  || \
+                                                ((TIMER_ID) == TIMER_12)  || \
+                                                ((TIMER_ID) == TIMER_13)  || \
+                                                ((TIMER_ID) == TIMER_14)  || \
+                                                ((TIMER_ID) == TIMER_15)  || \
+                                                ((TIMER_ID) == TIMER_16))
