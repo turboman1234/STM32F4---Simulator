@@ -88,10 +88,11 @@
 #define TIMER_14                71
 #define TIMER_15                72
 #define TIMER_16                73
+#define TIMER_COMMUNICATION     74
 
 //UART2
-#define U2_Rx                   74
-#define U2_Tx                   75
+#define USART_2                 75
+#define USART_3                 76        
 
 //Macros for digital IO, switches, LEDs
 #define ON                      1
@@ -135,4 +136,8 @@
                                                 ((TIMER_ID) == TIMER_13)  || \
                                                 ((TIMER_ID) == TIMER_14)  || \
                                                 ((TIMER_ID) == TIMER_15)  || \
-                                                ((TIMER_ID) == TIMER_16))
+                                                ((TIMER_ID) == TIMER_16)  || \
+                                                ((TIMER_ID) == TIMER_COMMUNICATION)
+
+#define IS_USART_ID_VALID (usartID)             (((usartID) == USART_2) || \
+                                                 ((usartID) == USART_3))
