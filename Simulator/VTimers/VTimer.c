@@ -6,52 +6,13 @@
  */
 #include "stm32f4xx_conf.h"
 #include "definitions.h"
+#include "mytim.h"
 #include "VTimer.h"
 
 volatile u32 arrVTimers[MAX_TIMER_COUNT];
 u16 vtimersRestartCount;
-volatile u32 timerCounter = 1;
+extern volatile u32 timerCounter;
 
-void InitTIM2(void)
-{
-    TIM_TimeBaseInitTypeDef TIM_2_TimeBaseInitStruct;
-    NVIC_InitTypeDef MYNVIC;
-    
-    //AHB clock = 50, MHz
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
-    
-    // Configure TIM2 IRQ
-    MYNVIC.NVIC_IRQChannel = TIM2_IRQn;
-    MYNVIC.NVIC_IRQChannelCmd = ENABLE;
-    MYNVIC.NVIC_IRQChannelPreemptionPriority = 0;
-    MYNVIC.NVIC_IRQChannelSubPriority = 2;
-    NVIC_Init(&MYNVIC);
-   
-    TIM_DeInit(TIM2);
-    
-    //TIM_2 clock = 50, MHz / prescaler = 50 000 000 / 500 = 100 000, Hz
-    //time = TIM_2 period * (1 / TIM_2 clock) = 100 * (1 / 100 000) = 0.001, s
-       
-    TIM_2_TimeBaseInitStruct.TIM_Prescaler = 500;
-    TIM_2_TimeBaseInitStruct.TIM_Period = 100;
-    TIM_2_TimeBaseInitStruct.TIM_ClockDivision = TIM_CKD_DIV1; // 0
-    TIM_2_TimeBaseInitStruct.TIM_CounterMode = TIM_CounterMode_Up;
-    TIM_2_TimeBaseInitStruct.TIM_RepetitionCounter = 0;
-    
-    TIM_TimeBaseInit(TIM2, &TIM_2_TimeBaseInitStruct);
-    
-    TIM_ClearFlag(TIM2, TIM_FLAG_Update);
-    TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
-    
-    TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);
-}
-
-void TIM2_IRQHandler(void)
-{
-    timerCounter = timerCounter + 1;
-    TIM_ClearFlag(TIM2, TIM_FLAG_Update);
-    TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
-}
 
 void InitVTimers(void)
 {
