@@ -118,6 +118,10 @@
 #define MIN_ANALOG_VALUE_8b     0
 #define MAX_ANALOG_VALUE_8b     255
 
+#define T_10_MS		10
+#define T_100_MS	100
+#define T_1_S		1000
+
 #define IS_OUTPUT_STATE_VALID (STATE)          (((STATE) == ON) || \
                                                 ((STATE) == OFF))
 
