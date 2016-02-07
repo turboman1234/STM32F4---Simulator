@@ -309,6 +309,15 @@
           <state>$PROJ_DIR$/DiscoveryLib</state>
           <state>$PROJ_DIR$/RCC</state>
           <state>$PROJ_DIR$/ADC</state>
+          <state>$PROJ_DIR$/DAC</state>
+          <state>$PROJ_DIR$/UserLibrary</state>
+          <state>$PROJ_DIR$/Definitions</state>
+          <state>$PROJ_DIR$/VTimers</state>
+          <state>$PROJ_DIR$/USART</state>
+          <state>$PROJ_DIR$/Serial</state>
+          <state>$PROJ_DIR$/ModBusSlave</state>
+          <state>$PROJ_DIR$/ModBusMaster</state>
+          <state>$PROJ_DIR$/MyTimers</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1907,6 +1916,15 @@
     </file>
   </group>
   <group>
+    <name>DAC</name>
+    <file>
+      <name>$PROJ_DIR$\DAC\dac.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\DAC\dac.h</name>
+    </file>
+  </group>
+  <group>
     <name>DiscoveryLib</name>
     <file>
       <name>$PROJ_DIR$\DiscoveryLib\stm32f4_discovery.c</name>
@@ -1916,12 +1934,48 @@
     </file>
   </group>
   <group>
+    <name>ModBusMaster</name>
+  </group>
+  <group>
+    <name>ModBusSlave</name>
+    <file>
+      <name>$PROJ_DIR$\ModBusSlave\mbcrc.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\ModBusSlave\mbcrc.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\ModBusSlave\mbslave.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\ModBusSlave\mbslave.h</name>
+    </file>
+  </group>
+  <group>
+    <name>MyTimers</name>
+    <file>
+      <name>$PROJ_DIR$\MyTimers\mytim.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\MyTimers\mytim.h</name>
+    </file>
+  </group>
+  <group>
     <name>RCC</name>
     <file>
       <name>$PROJ_DIR$\RCC\rcc.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\RCC\rcc.h</name>
+    </file>
+  </group>
+  <group>
+    <name>SerialCommunication</name>
+    <file>
+      <name>$PROJ_DIR$\Serial\serial.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Serial\serial.h</name>
     </file>
   </group>
   <group>
@@ -2014,6 +2068,33 @@
       <name>$PROJ_DIR$\Definitions\initPeripheral.h</name>
     </file>
   </group>
+  <group>
+    <name>USART</name>
+    <file>
+      <name>$PROJ_DIR$\USART\usart.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\USART\usart.h</name>
+    </file>
+  </group>
+  <group>
+    <name>UserLibrary</name>
+    <file>
+      <name>$PROJ_DIR$\UserLibrary\userLibrary.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\UserLibrary\userLibrary.h</name>
+    </file>
+  </group>
+  <group>
+    <name>VTimers</name>
+    <file>
+      <name>$PROJ_DIR$\VTimers\VTimer.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\VTimers\VTimer.h</name>
+    </file>
+  </group>
   <file>
     <name>$PROJ_DIR$\main.c</name>
   </file>
@@ -2022,6 +2103,9 @@
   </file>
   <file>
     <name>$PROJ_DIR$\..\Libraries\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h</name>
   </file>
 </project>
 
