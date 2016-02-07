@@ -278,20 +278,20 @@ void MB_slave_transmit( void )
     }
 }
 
-//Read Outputs
+//Read Coil Status
 char process_cmd1(void)
 {
-    unsigned char outputs;
-    unsigned char temp;
+    unsigned short outputs = 0x0000, i;
+    unsigned short temp;
     unsigned char bytesCount;
     
     if(RecieveBuffer[2] != 0) 
     {
         return 0; //check START ADDRESS HI is 0
     }
-    if(RecieveBuffer[3] > OUTPUTS_NUMBER) 
+    if(RecieveBuffer[3] >= OUTPUTS_NUMBER) 
     {
-        return 0;  //check START ADDRESS LO is [0:3]
+        return 0;  //check START ADDRESS LO is [0:15]
     }
     if(RecieveBuffer[4] != 0) 
     {
@@ -302,17 +302,28 @@ char process_cmd1(void)
         return 0; //check No of POINTS LO
     }
     
+    //read all cois' states
+    for(i = 0; i < OUTPUTS_NUMBER; i++)
+    {
+        outputs |= (ModBusSlaves[ActiveSlaveIndex].outputs[i] & 0x01) << i;
+    }
+    
     //take desired action
-    outputs = GetDInput() >> RecieveBuffer[3];
-    temp = (1 << RecieveBuffer[5]) - 1;
+    outputs = outputs >> RecieveBuffer[3];
+    temp = unsigned short((1 << RecieveBuffer[5]) - 1);
     outputs &= temp;
     bytesCount = (RecieveBuffer[5] / 8) ? 2 : 1;
     
     //compose response
-    Response[0] = RecieveBuffer[0]; // SLAVEID - same (already confirmed)
-    Response[1] = RecieveBuffer[1]; // COMMANDID - same (already confirmed)
-    Response[2] = bytesCount; // BYTECOUNT - is at max 2 bytes as we have 16 outputs
-    Response[3] = outputs;
+    ResponseBuffer[0] = RecieveBuffer[0]; // SLAVEID - same (already confirmed)
+    ResponseBuffer[1] = RecieveBuffer[1]; // COMMANDID - same (already confirmed)
+    ResponseBuffer[2] = bytesCount; // BYTECOUNT - is at max 2 bytes as we have 16 outputs
+    ResponseBuffer[3] = unsigned char(outputs & 0x00FF); //get LO Byte
+    
+    if(bytesCount == 2)
+    {
+        ResponseBuffer[4] = unsigned char(outputs >> 8); //get HI Byte
+    }
     
     return bytesCount + 3; //length of response;
 }
@@ -320,7 +331,51 @@ char process_cmd1(void)
 //Read Discrete Input
 char process_cmd2(void)
 {
+    unsigned short inputs = 0x0000, i;
+    unsigned short temp;
+    unsigned char bytesCount;
     
+    if(RecieveBuffer[2] != 0) 
+    {
+        return 0; //check START ADDRESS HI is 0
+    }
+    if(RecieveBuffer[3] >= INPUTS_NUMBER) 
+    {
+        return 0;  //check START ADDRESS LO is [0:15]
+    }
+    if(RecieveBuffer[4] != 0) 
+    {
+        return 0; //check No of POINTS HI is 0
+    }
+    if((OUTPUTS_NUMBER - RecieveBuffer[3]) < RecieveBuffer[5]) 
+    {
+        return 0; //check No of POINTS LO
+    }
+    
+    //read all cois' states
+    for(i = 0; i < INPUTS_NUMBER; i++)
+    {
+        inputs |= (ModBusSlaves[ActiveSlaveIndex].inputs[i] & 0x01) << i;
+    }
+    
+    //take desired action
+    inputs = inputs >> RecieveBuffer[3];
+    temp = unsigned short((1 << RecieveBuffer[5]) - 1);
+    inputs &= temp;
+    bytesCount = (RecieveBuffer[5] / 8) ? 2 : 1;
+    
+    //compose response
+    ResponseBuffer[0] = RecieveBuffer[0]; // SLAVEID - same (already confirmed)
+    ResponseBuffer[1] = RecieveBuffer[1]; // COMMANDID - same (already confirmed)
+    ResponseBuffer[2] = bytesCount; // BYTECOUNT - is at max 2 bytes as we have 16 outputs
+    ResponseBuffer[3] = unsigned char(inputs & 0x00FF); //get LO Byte
+    
+    if(bytesCount == 2)
+    {
+        ResponseBuffer[4] = unsigned char(inputs >> 8); //get HI Byte
+    }
+    
+    return bytesCount + 3; //length of response;
 }
 
 //Read Holding Registeers
@@ -329,173 +384,184 @@ char process_cmd3(void)
     unsigned char inputs;
     unsigned char temp;
     int i;
-	
-    if(Buffer[2] != 0) 
-	{
-		return 0; //check START ADDRESS HI is 0
-	}
-    if(Buffer[3] > HOLDING_REGISTERS_NUMBER) 
-	{
-		return 0;  //check START ADDRESS LO is < HOLDING_REGISTERS_NUMBER
-	}
-    if(Buffer[4] != 0) 
-	{
-		return 0; //check no of points hi is 0
-	}
-    if((HOLDING_REGISTERS_NUMBER - Buffer[3]) < Buffer[5]) 
-	{
-		return 0; //check No of POINTS LO
-	}    
-        
+    
+    if(RecieveBuffer[2] != 0) 
+    {
+        return 0; //check START ADDRESS HI is 0
+    }
+    if(RecieveBuffer[3] >= HOLDING_REGISTERS_NUMBER) 
+    {
+        return 0;  //check START ADDRESS LO is < HOLDING_REGISTERS_NUMBER
+    }
+    if(RecieveBuffer[4] != 0) 
+    {
+        return 0; //check no of points hi is 0
+    }
+    if((HOLDING_REGISTERS_NUMBER - RecieveBuffer[3]) < RecieveBuffer[5]) 
+    {
+        return 0; //check No of POINTS LO
+    }    
+    
     //compose response
-    Response[0] = Buffer[0]; // SLAVEID - same (already confirmed)
-    Response[1] = Buffer[1]; // COMMANDID - same (already confirmed)
-    Response[2] = Buffer[5] * 2; // BYTECOUNT - is at max 1 byte as we have only 4 relays
-	
-	for(i = 0; i < Buffer[5]; i ++)
-	{
-		Response[3 + i * 2] = HoldingRegisters[i + Buffer[3]] >> 8;
-		Response[4 + i * 2] = HoldingRegisters[i + Buffer[3]];
-	}
-	
-    return 3 + Buffer[5] * 2;
+    ResponseBuffer[0] = RecieveBuffer[0]; // SLAVEID - same (already confirmed)
+    ResponseBuffer[1] = RecieveBuffer[1]; // COMMANDID - same (already confirmed)
+    ResponseBuffer[2] = RecieveBuffer[5] * 2; // BYTECOUNT - is at max 200 bytes as we have 100 Hold. Reg.
+    
+    for(i = 0; i < RecieveBuffer[5]; i ++)
+    {
+        ResponseBuffer[3 + i * 2] = ModBusSlaves[ActiveSlaveIndex].holdingRegisters[i + RecieveBuffer[3]] >> 8;
+        ResponseBuffer[4 + i * 2] = ModBusSlaves[ActiveSlaveIndex].holdingRegisters[i + RecieveBuffer[3]];
+    }
+    
+    return 3 + RecieveBuffer[5] * 2;
 }
 
-//Write Single Coil
+//Force Single Coil
 char process_cmd5(void)
 {
-    if(Buffer[2] != 0)
+    if(RecieveBuffer[2] != 0)
     {
         return 0; //check COIL ADDRESS HI is 0
     }
-    if(Buffer[3] > 3) 
+    if(RecieveBuffer[3] >= OUTPUTS_NUMBER) 
     {
-        return 0;  //check COIL ADDRESS LO is [0:3]
+        return 0;  //check COIL ADDRESS LO is [0:15]
     }
-    if(Buffer[4] != 0xFF && Buffer[4] != 0x00) 
+    if(RecieveBuffer[4] != 0xFF && RecieveBuffer[4] != 0x00) 
     {
         return 0; //check DATA HI
     }
-    if(Buffer[5] != 0x00) 
+    if(RecieveBuffer[5] != 0x00) 
     {
         return 0; //check DATA LO
     }
     
     //take desired action
-    if(Buffer[4] == 0xFF)
+    if(RecieveBuffer[4] == 0xFF)
     {
-        // set output on address (Buffer[3]+1)
+        ModBusSlaves[ActiveSlaveIndex].outputs[RecieveBuffer[3]] = 0x01;
     }
     else 
     {
-        // reset output on address (Buffer[3]+1)
+        ModBusSlaves[ActiveSlaveIndex].outputs[RecieveBuffer[3]] = 0x00;
     }
     
     //compose response
-    Response[0] = Buffer[0];
-    Response[1] = Buffer[1];
-    Response[2] = Buffer[2];
-    Response[3] = Buffer[3];
-    Response[4] = Buffer[4];
-    Response[5] = Buffer[5];
+    ResponseBuffer[0] = RecieveBuffer[0];
+    ResponseBuffer[1] = RecieveBuffer[1];
+    ResponseBuffer[2] = RecieveBuffer[2];
+    ResponseBuffer[3] = RecieveBuffer[3];
+    ResponseBuffer[4] = RecieveBuffer[4];
+    ResponseBuffer[5] = RecieveBuffer[5];
     
     return 6;
 }
 
-//Write Multiple Coils
+//Force Multiple Coils
 char process_cmd15(void)
 {
-    unsigned char relays, count;
+    unsigned char bytesCount, i, j, currentByte, coilsCount, startAddress, ucSize;
     
-    if(Buffer[2] != 0) 
+    if(RecieveBuffer[2] != 0) 
     {
         return 0; //check COIL ADDRESS HI
     }
-    if(Buffer[3] > 3) 
+    if(RecieveBuffer[3] >= OUTPUTS_NUMBER) 
     {
-        return 0; //check COIL ADDRESS LO is [0:3]
+        return 0; //check COIL ADDRESS LO is [0:15]
     }
-    if(Buffer[4] != 0) 
+    if(RecieveBuffer[4] != 0) 
     {
         return 0; //check QUANTITY HI
     }
-    if((4 - Buffer[3]) < Buffer[5]) 
+    if((OUTPUTS_NUMBER - RecieveBuffer[3]) < RecieveBuffer[5]) 
     {
         return 0; //check QUANTITY LO
     }
-    if(Buffer[6] != 1) //???????????????????????????????????????????????????
+    if(RecieveBuffer[5] > OUTPUTS_NUMBER) 
+    {
+        return 0; //check QUANTITY Coils - it must be less or equal then OUTPUTS_NUMBER
+    }
+    if(RecieveBuffer[6] > 2 || RecieveBuffer[6] < 1) //max Coils' number is 16 which is 2 Bytes
     {
         return 0; // check BYTE COUNT
     }
     
-    //take desired action
-    relays = Buffer[7] << Buffer[3];
-    count = Buffer[5];
-    switch(Buffer[3])
+    ucSize = sizeof(unsigned char);
+    startAddress = RecieveBuffer[3];
+    coilsCount = RecieveBuffer[5];
+    bytesCount = RecieveBuffer[6];
+    
+    for(i = 0; i < bytesCount; i++)
     {
-    case 0:
-        if(relays & 0x01) ctrl_relay(REL1OUT, SET);
-        else ctrl_relay(REL1OUT, RESET);
-        if((--count) == 0) break;
-    case 1:
-        if(relays & 0x02) ctrl_relay(REL2OUT, SET);
-        else ctrl_relay(REL2OUT, RESET);
-        if((--count) == 0) break;
-    case 2:
-        if(relays & 0x04) ctrl_relay(REL3OUT, SET);
-        else ctrl_relay(REL3OUT, RESET);
-        if((--count) == 0) break;
-    case 3:
-        if(relays & 0x08) ctrl_relay(REL4OUT, SET);
-        else ctrl_relay(REL4OUT, RESET);
+        currentByte = RecieveBuffer[7 + i];
+        
+        for(j = 0; j < ucSize; j++)
+        {
+            if(coilsCount > 0)
+            {
+                // j = 3 =>
+                // 0011 1010 - current byte
+                //&
+                // 0000 1000 - generated mask with j
+                //-----------
+                // 0000 1000 ----> 0000 0001 - result 
+                ModBusSlaves[ActiveSlaveIndex].outputs[startAddress + i * ucSize + j] = (currentByte & (1 << j)) >> j; 
+                coilsCount --;
+            }
+            else
+            {
+                brake;
+            }
+        }
     }
-
+    
     //compose response
-    Response[0] = Buffer[0];
-    Response[1] = Buffer[1];
-    Response[2] = Buffer[2];
-    Response[3] = Buffer[3];
-    Response[4] = Buffer[4];
-    Response[5] = Buffer[5];
+    ResponseBuffer[0] = RecieveBuffer[0];
+    ResponseBuffer[1] = RecieveBuffer[1];
+    ResponseBuffer[2] = RecieveBuffer[2];
+    ResponseBuffer[3] = RecieveBuffer[3];
+    ResponseBuffer[4] = RecieveBuffer[4];
+    ResponseBuffer[5] = RecieveBuffer[5];
     
     return 6;
 }
 
-//Write Holding Registers
+//Preset Multiple Registers
 char process_cmd16(void)
 {
     unsigned char relays, count, i;
     
-    if(Buffer[2] != 0) 
-	{
-		return 0; //check START ADDRESS HI is 0
-	}
-    if(Buffer[3] > HOLDING_REGISTERS_NUMBER) 
-	{
-		return 0;  //check START ADDRESS LO is < HOLDING_REGISTERS_NUMBER
-	}
-    if(Buffer[4] != 0) 
-	{
-		return 0; //check no of points hi is 0
-	}
-    if((HOLDING_REGISTERS_NUMBER - Buffer[3]) < Buffer[5]) 
-	{
-		return 0; //check No of POINTS LO
-	}  
-	
-	for (i = 0; i < Buffer[5]; i ++)
-	{
-		HoldingRegisters[Buffer[3] + i] = Buffer[7 + i * 2] << 8;
-		HoldingRegisters[Buffer[3] + i] |= Buffer[8 + i * 2];
-	}	
-
+    if(RecieveBuffer[2] != 0) 
+    {
+        return 0; //check START ADDRESS HI is 0
+    }
+    if(RecieveBuffer[3] >= HOLDING_REGISTERS_NUMBER) 
+    {
+        return 0;  //check START ADDRESS LO is < HOLDING_REGISTERS_NUMBER
+    }
+    if(RecieveBuffer[4] != 0) 
+    {
+        return 0; //check no of points hi is 0
+    }
+    if((HOLDING_REGISTERS_NUMBER - RecieveBuffer[3]) < RecieveBuffer[5]) 
+    {
+        return 0; //check No of POINTS LO
+    }  
+    
+    for (i = 0; i < RecieveBuffer[5]; i ++)
+    {
+        ModBusSlaves[ActiveSlaveIndex].holdingRegisters[RecieveBuffer[3] + i] = (unsigned short)RecieveBuffer[7 + i * 2] << 8;
+        ModBusSlaves[ActiveSlaveIndex].holdingRegisters[RecieveBuffer[3] + i] |= RecieveBuffer[8 + i * 2];
+    }	
+    
     //compose response
-    Response[0] = Buffer[0];
-    Response[1] = Buffer[1];
-    Response[2] = Buffer[2];
-    Response[3] = Buffer[3];
-    Response[4] = Buffer[4];
-    Response[5] = Buffer[5];
+    ResponseBuffer[0] = RecieveBuffer[0];
+    ResponseBuffer[1] = RecieveBuffer[1];
+    ResponseBuffer[2] = RecieveBuffer[2];
+    ResponseBuffer[3] = RecieveBuffer[3];
+    ResponseBuffer[4] = RecieveBuffer[4];
+    ResponseBuffer[5] = RecieveBuffer[5];
     
     return 6;
 }
