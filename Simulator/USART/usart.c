@@ -1,9 +1,10 @@
 #include "stm32f4xx_conf.h"
 #include "definitions.h"
 #include "VTimer.h"
+#include "mbslave.h"
 #include "usart.h"
 
-
+//USART_2 is for ModBus communication
 void InitUSART2(void)
 {
     GPIO_InitTypeDef MYGPIO;
@@ -48,6 +49,7 @@ void InitUSART2(void)
     USART_Cmd(USART2, ENABLE);	
 }
 
+//USART_3 is for serial communication (RS-232)
 void InitUSART3(void)
 {
     GPIO_InitTypeDef MYGPIO;
@@ -164,3 +166,10 @@ unsigned char sendMyUSART(char *data, unsigned char count, int usartID)
 }
 
 
+void USART2_IRQHandler(void)
+{
+    MBReceiveFSM();
+    
+    USART_ClearFlag(USART2, USART_FLAG_RXNE);
+    USART_ClearITPendingBit(USART2, USART_IT_RXNE);
+}

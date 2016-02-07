@@ -33,3 +33,4 @@ void InitUSART1(void);
 void InitUSART3(void);
 unsigned char recieveMyUSART(int usartID);
 unsigned char sendMyUSART(char *data, unsigned char count, int usartID);
+void USART2_IRQHandler(void);
