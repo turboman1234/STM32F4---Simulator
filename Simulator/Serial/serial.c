@@ -1,5 +1,15 @@
 #include "serial.h"
 
+void InitSerial(void)
+{
+    InitUSART3();
+}
+
+unsigned char GetByte(int usartID)
+{
+    return recieveMyUSART(usartID);
+}
+
 int InString(unsigned char *Str, int len)
 {
     int recieveBytes = 0;
