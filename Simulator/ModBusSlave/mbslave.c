@@ -176,8 +176,7 @@ void MBPollSlave( void )
 void MBReceiveFSM( void )
 {
     signed char Byte;
-    BOOL isRecieveAddressValid;
-    
+        
     Byte = (signed char)GetByte(USART_2);
     
     switch ( MBRcvState )
@@ -205,7 +204,6 @@ void MB_handle_request( void )
 {
     int mblen;
     unsigned int crc;
-    unsigned int cnt = 0;
     
     //Clearing Response
     ClearModBusSlaveMemory(ResponseBuffer, RESPONSE_SIZE);
@@ -273,7 +271,7 @@ void MB_slave_transmit( void )
 {
     if( MBSndState == STATE_TX_XMIT )
     {
-        outString(ResponseBuffer, MBSndBufferPos, USART_2);			
+        OutString(ResponseBuffer, MBSndBufferPos, USART_2, MB_SLAVE_TIMER, T_10_MS);
         MBSndState = STATE_TX_IDLE;
     }
 }
@@ -310,7 +308,7 @@ char process_cmd1(void)
     
     //take desired action
     outputs = outputs >> RecieveBuffer[3];
-    temp = unsigned short((1 << RecieveBuffer[5]) - 1);
+    temp = (unsigned short)((1 << RecieveBuffer[5]) - 1);
     outputs &= temp;
     bytesCount = (RecieveBuffer[5] / 8) ? 2 : 1;
     
@@ -318,11 +316,11 @@ char process_cmd1(void)
     ResponseBuffer[0] = RecieveBuffer[0]; // SLAVEID - same (already confirmed)
     ResponseBuffer[1] = RecieveBuffer[1]; // COMMANDID - same (already confirmed)
     ResponseBuffer[2] = bytesCount; // BYTECOUNT - is at max 2 bytes as we have 16 outputs
-    ResponseBuffer[3] = unsigned char(outputs & 0x00FF); //get LO Byte
+    ResponseBuffer[3] = (unsigned char)(outputs & 0x00FF); //get LO Byte
     
     if(bytesCount == 2)
     {
-        ResponseBuffer[4] = unsigned char(outputs >> 8); //get HI Byte
+        ResponseBuffer[4] = (unsigned char)(outputs >> 8); //get HI Byte
     }
     
     return bytesCount + 3; //length of response;
@@ -360,7 +358,7 @@ char process_cmd2(void)
     
     //take desired action
     inputs = inputs >> RecieveBuffer[3];
-    temp = unsigned short((1 << RecieveBuffer[5]) - 1);
+    temp = (unsigned short)((1 << RecieveBuffer[5]) - 1);
     inputs &= temp;
     bytesCount = (RecieveBuffer[5] / 8) ? 2 : 1;
     
@@ -368,11 +366,11 @@ char process_cmd2(void)
     ResponseBuffer[0] = RecieveBuffer[0]; // SLAVEID - same (already confirmed)
     ResponseBuffer[1] = RecieveBuffer[1]; // COMMANDID - same (already confirmed)
     ResponseBuffer[2] = bytesCount; // BYTECOUNT - is at max 2 bytes as we have 16 outputs
-    ResponseBuffer[3] = unsigned char(inputs & 0x00FF); //get LO Byte
+    ResponseBuffer[3] = (unsigned char)(inputs & 0x00FF); //get LO Byte
     
     if(bytesCount == 2)
     {
-        ResponseBuffer[4] = unsigned char(inputs >> 8); //get HI Byte
+        ResponseBuffer[4] = (unsigned char)(inputs >> 8); //get HI Byte
     }
     
     return bytesCount + 3; //length of response;
@@ -381,8 +379,6 @@ char process_cmd2(void)
 //Read Holding Registeers
 char process_cmd3(void)
 {
-    unsigned char inputs;
-    unsigned char temp;
     int i;
     
     if(RecieveBuffer[2] != 0) 
@@ -511,7 +507,7 @@ char process_cmd15(void)
             }
             else
             {
-                brake;
+                break;
             }
         }
     }
@@ -530,7 +526,7 @@ char process_cmd15(void)
 //Preset Multiple Registers
 char process_cmd16(void)
 {
-    unsigned char relays, count, i;
+    unsigned char i;
     
     if(RecieveBuffer[2] != 0) 
     {
