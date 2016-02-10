@@ -71,28 +71,30 @@
 #define DAC_1                   56
 #define DAC_2                   57
 
-//TIMERS
-#define TIMER_1                 58
-#define TIMER_2                 59
-#define TIMER_3                 60
-#define TIMER_4                 61
-#define TIMER_5                 62
-#define TIMER_6                 63
-#define TIMER_7                 64
-#define TIMER_8                 65
-#define TIMER_9                 66
-#define TIMER_10                67
-#define TIMER_11                68
-#define TIMER_12                69
-#define TIMER_13                70
-#define TIMER_14                71
-#define TIMER_15                72
-#define TIMER_16                73
-#define TIMER_COMMUNICATION     74
+//USART
+#define USART_2                 58
+#define USART_3                 59        
 
-//UART2
-#define USART_2                 75
-#define USART_3                 76        
+//TIMERS
+#define TIMER_1                 60
+#define TIMER_2                 61
+#define TIMER_3                 62
+#define TIMER_4                 63
+#define TIMER_5                 64
+#define TIMER_6                 65
+#define TIMER_7                 66
+#define TIMER_8                 67
+#define TIMER_9                 68
+#define TIMER_10                69
+#define TIMER_11                70
+#define TIMER_12                71
+#define TIMER_13                72
+#define TIMER_14                73
+#define TIMER_15                74
+#define TIMER_16                75
+#define TIMER_COMMUNICATION     76
+#define MB_MASTER_TIMER         77
+#define MB_SLAVE_TIMER           78
 
 //Macros for digital IO, switches, LEDs
 #define ON                      1
