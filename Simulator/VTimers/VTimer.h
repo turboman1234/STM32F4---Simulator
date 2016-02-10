@@ -1,5 +1,5 @@
 #define mGetTimerCounter()		GetTimerCounter()
-#define MAX_TIMER_COUNT                 17
+#define MAX_TIMER_COUNT                 19
 
 void InitTIM2(void);
 void TIM2_IRQHandler(void);
