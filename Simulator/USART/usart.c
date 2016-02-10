@@ -117,11 +117,16 @@ unsigned char recieveMyUSART(int usartID)
         recvtemp = USART_ReceiveData(USARTx);
         return recvtemp;
     }
-    return 0;
+    return -1;
 }
 
 
-unsigned char sendMyUSART(char *data, unsigned char count, int usartID)
+//char *data - pointer to data which will be send
+//unsigned char count - number of sending data bytes
+//int usartID - USART_2 for ModBus and USART_3 fot serial communication RS232
+//int timerType - TIMER_XX, MB_MASTER_TIMER, TIMER_COMMUNICATION ...
+//int miliseconds - timeout between frames sending - T_10_MS, T_100_MS, T_1_S...
+unsigned char sendMyUSART(char *data, unsigned char count, int usartID, int timerType, int miliseconds)
 {
     assert_param(IS_USART_ID_VALID(usartID));
     
@@ -140,11 +145,11 @@ unsigned char sendMyUSART(char *data, unsigned char count, int usartID)
     
     while(count--)
     {
-        SetVTimerValue(TIMER_COMMUNICATION, T_10_MS);
+        SetVTimerValue(timerType, miliseconds);
         
         //check if TX buffer is empty
-        while(USART_GetFlagStatus(USARTx, USART_FLAG_TXE) == RESET && IsVTimerElapsed(TIMER_COMMUNICATION) == NOT_ELAPSED);
-        if(IsVTimerElapsed(TIMER_COMMUNICATION) == NOT_ELAPSED)
+        while(USART_GetFlagStatus(USARTx, USART_FLAG_TXE) == RESET && IsVTimerElapsed(timerType) == NOT_ELAPSED);
+        if(IsVTimerElapsed(timerType) == NOT_ELAPSED)
         {
             USART_SendData(USARTx, *data);
         }
@@ -157,15 +162,15 @@ unsigned char sendMyUSART(char *data, unsigned char count, int usartID)
     }
     
     
-    SetVTimerValue(TIMER_COMMUNICATION, T_10_MS);
+    SetVTimerValue(timerType, miliseconds);
     
     //check if TX is done
-    while(USART_GetFlagStatus(USARTx, USART_FLAG_TC) == RESET &&  IsVTimerElapsed(TIMER_COMMUNICATION) == NOT_ELAPSED);
+    while(USART_GetFlagStatus(USARTx, USART_FLAG_TC) == RESET &&  IsVTimerElapsed(timerType) == NOT_ELAPSED);
        
     return bytesSend;
 }
 
-
+//This handler is connected with ModBus Slave devices - it recieves requests
 void USART2_IRQHandler(void)
 {
     MBReceiveFSM();

@@ -1,5 +1,3 @@
-#include "stm32f4xx_usart.h"
-
 typedef enum {
     eUsartBaudRate2400 = 2400,
     eUsartBaudRate9600 = 9600,
@@ -32,5 +30,5 @@ typedef enum {
 void InitUSART1(void);
 void InitUSART3(void);
 unsigned char recieveMyUSART(int usartID);
-unsigned char sendMyUSART(char *data, unsigned char count, int usartID);
+unsigned char sendMyUSART(char *data, unsigned char count, int usartID, int timerType, int miliseconds);
 void USART2_IRQHandler(void);
