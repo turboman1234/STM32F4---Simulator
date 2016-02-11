@@ -1,13 +1,14 @@
 #include "stm32f4xx_conf.h"
+#include "definitions.h"
 #include "mbcrc.h"
 #include "mbslave.h"
 #include "serial.h"
 #include "mytim.h"
-#include "definitions.h"
+
 
 static volatile unsigned short MBRcvBufferPos;
 static volatile unsigned short MBSndBufferPos;
-static volatile int ActiveSlaveIndex = INVALID_SLAVE_INDEX;
+static int ActiveSlaveIndex = INVALID_SLAVE_INDEX;
 
 unsigned short HoldingRegisters[HOLDING_REGISTERS_NUMBER];
 
