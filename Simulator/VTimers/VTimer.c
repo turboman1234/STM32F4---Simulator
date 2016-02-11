@@ -112,6 +112,7 @@ void VTimersReset(void)
         }
     }
 }
+
 void VTimerTask(void)
 {
     if (mGetTimerCounter() > 0xffff0000)

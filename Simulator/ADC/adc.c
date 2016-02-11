@@ -1,3 +1,4 @@
+#include "stm32f4xx_conf.h"
 #include "adc.h"
 
 //ADC1 initianilize

@@ -1,6 +1,7 @@
 #include "stm32f4xx_conf.h"
-#include "mytim.h"
 #include "mbslave.h"
+#include "mytim.h"
+
 
 volatile char delaydone;
 volatile char timeout;

@@ -1,3 +1,4 @@
+#include "stm32f4xx_conf.h"
 #include "dac.h"
 
 //init DAC - chanel 1, 12 bits

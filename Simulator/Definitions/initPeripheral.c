@@ -1,6 +1,8 @@
-#include "initPeripheral.h"
+#include "stm32f4xx_conf.h"
+#include "definitions.h"
 #include "adc.h"
 #include "dac.h"
+#include "initPeripheral.h"
 
 
 /* Configure GPIO pin as button input */

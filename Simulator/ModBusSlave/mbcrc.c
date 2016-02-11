@@ -1,7 +1,4 @@
-
-/* ----------------------- Platform includes --------------------------------*/
 #include "mbcrc.h"
-
 
 unsigned int usMBCRC16(unsigned char *Frame, int length)
 {

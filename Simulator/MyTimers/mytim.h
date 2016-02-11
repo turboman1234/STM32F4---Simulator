@@ -1,3 +1,5 @@
+#ifndef __MYTIM_H
+#define __MYTIM_H
 
 void InitTIM2(void);
 void TIM2_IRQHandler(void);
@@ -6,3 +8,5 @@ void ReInitModBusTimer(unsigned short miliseconds);
 void ModBusTimerEnable(unsigned short miliseconds);
 void ModBusTimerDisable(void);
 void TIM3_IRQHandler(void);
+
+#endif

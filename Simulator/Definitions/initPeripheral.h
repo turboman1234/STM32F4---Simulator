@@ -1,5 +1,5 @@
-#include "stm32f4xx_conf.h"
-#include "definitions.h"
+#ifndef __INITPERIPHERAL_H
+#define __INITPERIPHERAL_H
 
 #define IS_BUTTON_ID_VALID (BUTTON_ID)         (((BUTTON_ID) == BUTTON_1) || \
                                                 ((BUTTON_ID) == BUTTON_2) || \
@@ -80,3 +80,5 @@ void InitOutput(int outputID);
 void InitTrimmer(int trimmerID);
 void InitADC(int adcID);
 void InitDAC(int dacID, int initValue);
+
+#endif

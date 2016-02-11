@@ -1,4 +1,9 @@
+#include "stm32f4xx_conf.h"
+#include "definitions.h"
+#include "VTimer.h"
+#include "usart.h"
 #include "serial.h"
+
 
 void InitSerial(void)
 {
@@ -29,7 +34,7 @@ int InString(unsigned char *Str, int len, int usartID, int timerType, int milise
     //    
     //    return recieveBytes;
     
-    int x;
+    int x, isTimerElapsed;
     int BytesReceived = 0;
     
     SetVTimerValue(timerType, miliseconds);

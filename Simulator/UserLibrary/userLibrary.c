@@ -1,3 +1,6 @@
+#include "stm32f4xx_conf.h"
+#include "definitions.h"
+#include "adc.h"
 #include "userLibrary.h"
 
 int GetButtonState(int buttonNumber)

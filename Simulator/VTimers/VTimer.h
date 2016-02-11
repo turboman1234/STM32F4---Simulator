@@ -1,8 +1,9 @@
+#ifndef __VTIMER_H
+#define __VTIMER_H
+
 #define mGetTimerCounter()		GetTimerCounter()
 #define MAX_TIMER_COUNT                 19
 
-void InitTIM2(void);
-void TIM2_IRQHandler(void);
 void InitVTimers(void);
 void EnableVTimers(void);
 void DisableVTimers(void);
@@ -15,3 +16,6 @@ void VTimersReset(void);
 void VTimerTask(void);
 u32 ResetTimerCounter(void);
 u32 GetTimerCounter(void);
+
+
+#endif
