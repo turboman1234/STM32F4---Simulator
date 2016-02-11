@@ -1,3 +1,6 @@
+#ifndef __DEFINITIONS_H
+#define __DEFINITIONS_H
+
 //Buttons' definitions
 #define BUTTON_1        1
 #define BUTTON_2        2
@@ -94,7 +97,7 @@
 #define TIMER_16                75
 #define TIMER_COMMUNICATION     76
 #define MB_MASTER_TIMER         77
-#define MB_SLAVE_TIMER           78
+#define MB_SLAVE_TIMER          78
 
 //Macros for digital IO, switches, LEDs
 #define ON                      1
@@ -107,6 +110,10 @@
 //Macros for timers
 #define ELAPSED                 1
 #define NOT_ELAPSED             0
+
+//Macros for Bool operations
+#define FALSE                   0
+#define TRUE                    1
 
 //Macros for analog value (12 bits)
 #define MIN_ANALOG_VALUE_12b    0
@@ -143,7 +150,12 @@
                                                 ((TIMER_ID) == TIMER_14)  || \
                                                 ((TIMER_ID) == TIMER_15)  || \
                                                 ((TIMER_ID) == TIMER_16)  || \
-                                                ((TIMER_ID) == TIMER_COMMUNICATION)
+                                                ((TIMER_ID) == TIMER_COMMUNICATION) || \
+                                                ((TIMER_ID) == MB_MASTER_TIMER) || \
+                                                ((TIMER_ID) == MB_SLAVE_TIMER))
 
 #define IS_USART_ID_VALID (usartID)             (((usartID) == USART_2) || \
                                                  ((usartID) == USART_3))
+
+
+#endif
