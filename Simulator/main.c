@@ -2,11 +2,12 @@
 #include "stm32f4xx_conf.h"
 #include "stm32f4_discovery.h"
 #include "system_stm32f4xx.h"
-#include "rcc.h"
 #include "definitions.h"
+#include "rcc.h"
 #include "initPeripheral.h"
 #include "userLibrary.h"
 #include "VTimer.h"
+
 
 extern RCC_ClocksTypeDef MYCLOCKS;
 
