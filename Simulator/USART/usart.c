@@ -29,12 +29,12 @@ void InitUSART2(void)
     GPIO_Init(GPIOA, &MYGPIO);
         
     
-    MYUSART.USART_BaudRate = eUsartBaudRate19200;
+    MYUSART.USART_BaudRate = USART_BAUD_RATE_19200;
     MYUSART.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
     MYUSART.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-    MYUSART.USART_Parity = eUsartParityNo;
-    MYUSART.USART_StopBits = eUsartStopBits1;
-    MYUSART.USART_WordLength = eUsartWordLength8b;
+    MYUSART.USART_Parity = USART_Parity_No;
+    MYUSART.USART_StopBits = USART_StopBits_1;
+    MYUSART.USART_WordLength = USART_WordLength_8b;
     USART_Init(USART2, &MYUSART);
     
     USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
@@ -74,12 +74,12 @@ void InitUSART3(void)
     GPIO_Init(GPIOD, &MYGPIO);
         
     
-    MYUSART.USART_BaudRate = eUsartBaudRate19200;
+    MYUSART.USART_BaudRate = USART_BAUD_RATE_19200;
     MYUSART.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
     MYUSART.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-    MYUSART.USART_Parity = eUsartParityNo;
-    MYUSART.USART_StopBits = eUsartStopBits1;
-    MYUSART.USART_WordLength = eUsartWordLength8b;
+    MYUSART.USART_Parity = USART_Parity_No;
+    MYUSART.USART_StopBits = USART_StopBits_1;
+    MYUSART.USART_WordLength = USART_WordLength_8b;
     USART_Init(USART3, &MYUSART);
     
     USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
