@@ -24,7 +24,7 @@
     <Windows>
       
       
-    <Wnd1>
+    <Wnd0>
         <Tabs>
           <Tab>
             <Identity>TabID-11597-800</Identity>
@@ -32,24 +32,24 @@
             <Factory>Workspace</Factory>
             <Session>
               
-            <NodeDict><ExpandedNode>Simulator</ExpandedNode><ExpandedNode>Simulator/MyTimers</ExpandedNode><ExpandedNode>Simulator/Output</ExpandedNode><ExpandedNode>Simulator/Timers</ExpandedNode><ExpandedNode>Simulator/USART</ExpandedNode><ExpandedNode>Simulator/UniversalDefinedConstants</ExpandedNode><ExpandedNode>Simulator/startup_stm32f40xx.s</ExpandedNode><ExpandedNode>Simulator/startup_stm32f40xx.s/Output</ExpandedNode></NodeDict></Session>
+            <NodeDict><ExpandedNode>Simulator</ExpandedNode><ExpandedNode>Simulator/ModBusMaster</ExpandedNode><ExpandedNode>Simulator/ModBusSlave</ExpandedNode><ExpandedNode>Simulator/MyTimers</ExpandedNode><ExpandedNode>Simulator/Output</ExpandedNode><ExpandedNode>Simulator/RCC</ExpandedNode><ExpandedNode>Simulator/SerialCommunication</ExpandedNode><ExpandedNode>Simulator/Timers</ExpandedNode><ExpandedNode>Simulator/USART</ExpandedNode><ExpandedNode>Simulator/UniversalDefinedConstants</ExpandedNode><ExpandedNode>Simulator/UserLibrary</ExpandedNode><ExpandedNode>Simulator/VTimers</ExpandedNode><ExpandedNode>Simulator/startup_stm32f40xx.s</ExpandedNode><ExpandedNode>Simulator/startup_stm32f40xx.s/Output</ExpandedNode></NodeDict></Session>
           </Tab>
         </Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd1><Wnd0><Tabs><Tab><Identity>TabID-5599-30982</Identity><TabName>Build</TabName><Factory>Build</Factory><Session/></Tab></Tabs><SelectedTab>0</SelectedTab></Wnd0></Windows>
+      <SelectedTab>0</SelectedTab></Wnd0></Windows>
     <Editor>
       
       
       
       
-    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\ModBusSlave\mbslave.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>141</YPos2><SelStart2>5140</SelStart2><SelEnd2>5140</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\ModBusSlave\mbslave.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>9</YPos2><SelStart2>620</SelStart2><SelEnd2>620</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Definitions\definitions.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>2723</SelStart2><SelEnd2>2723</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\USART\usart.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>16</YPos2><SelStart2>808</SelStart2><SelEnd2>808</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\MyTimers\mytim.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>92</YPos2><SelStart2>3349</SelStart2><SelEnd2>3349</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Serial\serial.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>90</SelStart2><SelEnd2>90</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Serial\serial.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>136</SelStart2><SelEnd2>136</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\USART\usart.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>265</SelStart2><SelEnd2>265</SelEnd2></Tab><ActiveTab>7</ActiveTab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\ModBusSlave\mbslave.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>48</YPos2><SelStart2>3176</SelStart2><SelEnd2>3176</SelEnd2></Tab><ActiveTab>0</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\USART\usart.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>118</SelStart2><SelEnd2>118</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\MyTimers\mytim.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>97</YPos2><SelStart2>3351</SelStart2><SelEnd2>3351</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Serial\serial.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>117</SelStart2><SelEnd2>117</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\ModBusSlave\mbslave.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>930</SelStart2><SelEnd2>930</SelEnd2></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
     <Positions>
       
       
       
       
       
-    <Top><Row0><Sizes><Toolbar-002C74F0><key>iaridepm.enu1</key></Toolbar-002C74F0></Sizes></Row0></Top><Left><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>575</Bottom><Right>317</Right><x>-2</x><y>-2</y><xscreen>148</xscreen><yscreen>141</yscreen><sizeHorzCX>92500</sizeHorzCX><sizeHorzCY>172372</sizeHorzCY><sizeVertCX>199375</sizeVertCX><sizeVertCY>705379</sizeVertCY></Rect></Wnd1></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>198</Bottom><Right>1602</Right><x>-2</x><y>-2</y><xscreen>1604</xscreen><yscreen>200</yscreen><sizeHorzCX>1002500</sizeHorzCX><sizeHorzCY>244499</sizeHorzCY><sizeVertCX>125000</sizeVertCX><sizeVertCY>244499</sizeVertCY></Rect></Wnd0></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+    <Top><Row0><Sizes><Toolbar-027A74F0><key>iaridepm.enu1</key></Toolbar-027A74F0></Sizes></Row0></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>773</Bottom><Right>317</Right><x>-2</x><y>-2</y><xscreen>148</xscreen><yscreen>141</yscreen><sizeHorzCX>92500</sizeHorzCX><sizeHorzCY>172372</sizeHorzCY><sizeVertCX>199375</sizeVertCX><sizeVertCY>947433</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes/></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
 </Workspace>
 

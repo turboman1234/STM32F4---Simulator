@@ -1,4 +1,4 @@
-"L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator\Definitions\initPeripheral.c"
+"L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator\DAC\dac.c"
 -std=c99
 -ferror-limit=100
 -I
@@ -278,8 +278,8 @@ C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.0\arm\CMSIS\Include
 -D__HAS_LOCATED_WITH_INIT__=1
 -D__IAR_COMPILERBASE__=594176
 -D_GOANNA=1
--D__DATE__="Feb 11 2016"
--D__TIME__="12:07:00"
+-D__DATE__="Feb 10 2016"
+-D__TIME__="13:52:19"
 -D__STDC__=1
 -D__STDC_VERSION__=199901L
 -D__STDC_HOSTED__=1

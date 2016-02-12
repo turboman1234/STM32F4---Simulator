@@ -1,38 +1,78 @@
-"L:\Programming Projects\GitWork\За архива\Diplomna\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c"
+"L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c"
 -std=c99
 -ferror-limit=100
 -I
-L:\Programming Projects\GitWork\За архива\Diplomna\Simulator
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator
 -I
-L:\Programming Projects\GitWork\За архива\Diplomna\Simulator/../Libraries/CMSIS/Device/ST/STM32F4xx/Include
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator/../Libraries/CMSIS/Device/ST/STM32F4xx/Include
 -I
-L:\Programming Projects\GitWork\За архива\Diplomna\Simulator/../Libraries/CMSIS/Device/ST/STM32F4xx/Source/Templates
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator/../Libraries/CMSIS/Device/ST/STM32F4xx/Source/Templates
 -I
-L:\Programming Projects\GitWork\За архива\Diplomna\Simulator/../Libraries/STM32F4xx_StdPeriph_Driver/inc
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator/../Libraries/STM32F4xx_StdPeriph_Driver/inc
 -I
-L:\Programming Projects\GitWork\За архива\Diplomna\Simulator/DiscoveryLib
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator/DiscoveryLib
 -I
-L:\Programming Projects\GitWork\За архива\Diplomna\Simulator/RCC
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator/RCC
 -I
-L:\Programming Projects\GitWork\За архива\Diplomna\Simulator/ADC
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator/ADC
+-I
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator/DAC
+-I
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator/UserLibrary
+-I
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator/Definitions
+-I
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator/VTimers
+-I
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator/USART
+-I
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator/Serial
+-I
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator/ModBusSlave
+-I
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator/ModBusMaster
+-I
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator/MyTimers
+-I
+C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.0\arm\CMSIS\Include
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.0\arm\inc
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.0\arm\inc\c
 -I
-L:\Programming Projects\GitWork\За архива\Diplomna\Simulator
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator
 -I
-L:\Programming Projects\GitWork\За архива\Diplomna\Libraries\CMSIS\Device\ST\STM32F4xx\Include
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Libraries\CMSIS\Device\ST\STM32F4xx\Include
 -I
-L:\Programming Projects\GitWork\За архива\Diplomna\Libraries\CMSIS\Device\ST\STM32F4xx\Source\Templates
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Libraries\CMSIS\Device\ST\STM32F4xx\Source\Templates
 -I
-L:\Programming Projects\GitWork\За архива\Diplomna\Libraries\STM32F4xx_StdPeriph_Driver\inc
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Libraries\STM32F4xx_StdPeriph_Driver\inc
 -I
-L:\Programming Projects\GitWork\За архива\Diplomna\Simulator\DiscoveryLib
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator\DiscoveryLib
 -I
-L:\Programming Projects\GitWork\За архива\Diplomna\Simulator\RCC
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator\RCC
 -I
-L:\Programming Projects\GitWork\За архива\Diplomna\Simulator\ADC
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator\ADC
+-I
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator\DAC
+-I
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator\UserLibrary
+-I
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator\Definitions
+-I
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator\VTimers
+-I
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator\USART
+-I
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator\Serial
+-I
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator\ModBusSlave
+-I
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator\ModBusMaster
+-I
+L:\Programming Projects\GitWork\За архива\STM32F4---Simulator\Simulator\MyTimers
+-I
+C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.0\arm\CMSIS\Include
 -DUSE_STDPERIPH_DRIVER=1
 -DSTM32F40XX=1
 -D__CHAR_BITS__=8
@@ -238,8 +278,8 @@ L:\Programming Projects\GitWork\За архива\Diplomna\Simulator\ADC
 -D__HAS_LOCATED_WITH_INIT__=1
 -D__IAR_COMPILERBASE__=594176
 -D_GOANNA=1
--D__DATE__="Nov 22 2015"
--D__TIME__="21:51:40"
+-D__DATE__="Feb 10 2016"
+-D__TIME__="13:52:38"
 -D__STDC__=1
 -D__STDC_VERSION__=199901L
 -D__STDC_HOSTED__=1
