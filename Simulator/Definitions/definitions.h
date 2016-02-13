@@ -95,7 +95,7 @@
 #define TIMER_14                73
 #define TIMER_15                74
 #define TIMER_16                75
-#define TIMER_COMMUNICATION     76
+#define RS232_TIMER             76
 #define MB_MASTER_TIMER         77
 #define MB_SLAVE_TIMER          78
 
@@ -150,7 +150,7 @@
                                                 ((TIMER_ID) == TIMER_14)  || \
                                                 ((TIMER_ID) == TIMER_15)  || \
                                                 ((TIMER_ID) == TIMER_16)  || \
-                                                ((TIMER_ID) == TIMER_COMMUNICATION) || \
+                                                ((TIMER_ID) == RS232_TIMER) || \
                                                 ((TIMER_ID) == MB_MASTER_TIMER) || \
                                                 ((TIMER_ID) == MB_SLAVE_TIMER))
 
