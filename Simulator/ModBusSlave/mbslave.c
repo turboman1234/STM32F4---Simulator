@@ -10,9 +10,8 @@ static volatile unsigned short MBRcvBufferPos;
 static volatile unsigned short MBSndBufferPos;
 static int ActiveSlaveIndex = INVALID_SLAVE_INDEX;
 
-unsigned short HoldingRegisters[HOLDING_REGISTERS_NUMBER];
 
-ModBusSlaveUnit ModBusSlaves[MAX_MODBUS_SLAVE_DEVICES];
+extern ModBusSlaveUnit ModBusSlaves[MAX_MODBUS_SLAVE_DEVICES];
 unsigned char RecieveBuffer[PACKET_SIZE];
 unsigned char ResponseBuffer[RESPONSE_SIZE];
 
