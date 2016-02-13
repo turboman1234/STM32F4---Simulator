@@ -1,15 +1,12 @@
 #include "stm32f4xx_conf.h"
 #include "mbslave.h"
+#include "rs232.h"
 #include "mytim.h"
 
 
-volatile char delaydone;
-volatile char timeout;
-volatile char timeout2;
-char timer_expired = 0;
-
 extern volatile u32 timerCounter = 1;
 
+//TIM2 is for VTimer library
 void InitTIM2(void)
 {
     TIM_TimeBaseInitTypeDef TIM_2_TimeBaseInitStruct;
@@ -113,7 +110,7 @@ void ReInitModBusTimer(unsigned short miliseconds)
 void ModBusTimerEnable(unsigned short miliseconds)
 {    
     TIM_Cmd(TIM3, DISABLE);
-    timeout = 0;
+    
     ReInitModBusTimer(miliseconds);
 }
 
@@ -126,12 +123,91 @@ void ModBusTimerDisable(void)
 void TIM3_IRQHandler(void)
 {
     TIM_Cmd(TIM3, DISABLE);
-    
-    timeout = 1;
-    timer_expired = 1;
-    
+        
     MBTimerExpired();
     
     TIM_ClearFlag(TIM3, TIM_FLAG_Update);
     TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
+}
+
+
+//TIM_4 is for RS232 communication
+void InitTIM4(void)
+{
+    TIM_TimeBaseInitTypeDef TIM_4_TimeBaseInitStruct;
+    NVIC_InitTypeDef MYNVIC;
+    
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
+    
+    // Configure TIM4 IRQ
+    MYNVIC.NVIC_IRQChannel = TIM4_IRQn;
+    MYNVIC.NVIC_IRQChannelCmd = ENABLE;
+    MYNVIC.NVIC_IRQChannelPreemptionPriority = 0;
+    MYNVIC.NVIC_IRQChannelSubPriority = 3;
+    NVIC_Init(&MYNVIC);	
+    
+    TIM_DeInit(TIM4);
+    
+    //TIM_4 clock = 50, MHz / prescaler = 50 000 000 / 50 000 = 1000, Hz
+    //time = TIM_4 period * (1 / TIM_4 clock) = 1 * (1 / 1000) = 0.001, s
+       
+    TIM_4_TimeBaseInitStruct.TIM_Prescaler = 50000;
+    TIM_4_TimeBaseInitStruct.TIM_Period = 1;
+    TIM_4_TimeBaseInitStruct.TIM_ClockDivision = TIM_CKD_DIV1; // 0
+    TIM_4_TimeBaseInitStruct.TIM_CounterMode = TIM_CounterMode_Up;
+    TIM_4_TimeBaseInitStruct.TIM_RepetitionCounter = 0;
+    
+    TIM_TimeBaseInit(TIM4, &TIM_4_TimeBaseInitStruct);
+    
+    TIM_ClearFlag(TIM4, TIM_FLAG_Update);
+    TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
+    
+    TIM_ITConfig(TIM4, TIM_IT_Update, ENABLE);
+    
+    //TIM4 is not enabled from init function
+    //ENABLE command is set by RS232TimerEnable()
+}
+
+void ReInitRS232Timer(unsigned short miliseconds)
+{
+    TIM_TimeBaseInitTypeDef MYTIM;
+    
+    TIM_DeInit(TIM4);
+    
+    MYTIM.TIM_ClockDivision = TIM_CKD_DIV1;
+    MYTIM.TIM_CounterMode = TIM_CounterMode_Up;
+    MYTIM.TIM_Prescaler = 50000;
+    MYTIM.TIM_Period = miliseconds;
+    MYTIM.TIM_RepetitionCounter = 0;
+    
+    TIM_TimeBaseInit(TIM4, &MYTIM);
+        
+    TIM_ClearFlag(TIM4, TIM_FLAG_Update);
+    TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
+    TIM_ITConfig(TIM4, TIM_IT_Update, ENABLE);
+    
+    TIM_Cmd(TIM4, ENABLE);
+}
+
+void RS232TimerEnable(unsigned short miliseconds)
+{    
+    TIM_Cmd(TIM4, DISABLE);
+    
+    ReInitRS232Timer(miliseconds);
+}
+
+void RS232TimerDisable(void)
+{
+    TIM_Cmd(TIM4, DISABLE);
+}
+
+
+void TIM4_IRQHandler(void)
+{
+    TIM_Cmd(TIM4, DISABLE);
+   
+    RS232TimerExpired();
+    
+    TIM_ClearFlag(TIM4, TIM_FLAG_Update);
+    TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
 }
