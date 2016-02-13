@@ -20,20 +20,8 @@ unsigned char GetByte(int usartID)
 //int usartID - USART_2 for ModBus and USART_3 fot serial communication RS232
 //int timerType - TIMER_XX, MB_MASTER_TIMER, TIMER_COMMUNICATION ...
 //int miliseconds - timeout between frames sending - T_10_MS, T_100_MS, T_1_S...
-int InString(unsigned char *Str, int len, int usartID, int timerType, int miliseconds)
-{
-    //    int recieveBytes = 0;
-    //        
-    //    while(len > 0)
-    //    {
-    //        *Str = recieveMyUSART(usartID);
-    //        Str ++;
-    //        len --;
-    //        recieveBytes ++;
-    //    }
-    //    
-    //    return recieveBytes;
-    
+int InString(unsigned char *Str, int usartID, int timerType, int miliseconds)
+{   
     int x, isTimerElapsed;
     int BytesReceived = 0;
     
