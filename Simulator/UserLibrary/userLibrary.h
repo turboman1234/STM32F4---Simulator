@@ -4,11 +4,13 @@
 int GetButtonState(int buttonNumber);
 int GetDigitalInput(int inputNumber);
 int GetSwitchState(int switchNumber);
-int GetOutputState(int outputNumber);
+int GetLEDState(int ledID);
+int GetOutputState(int outputID);
 int GetTrimmerValue(int trimmerNumber);
 int GetAnalogInput(int adcNumber);
 int GetAnalogOutput(int dacNumber);
-void SetDigitalOutput(int outputNumber, int state);
+void SetDigitalOutput(int outputID, int state);
+void SetLED(int ledID, int state);
 void SetAnalogOutput(int dacOutput, int value);
 
 #endif
