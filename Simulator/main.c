@@ -11,19 +11,14 @@
 
 extern RCC_ClocksTypeDef MYCLOCKS;
 
+ void TestLEDsButtonsAndSwitches(void);
+
+
 int trimmerValue, dacValue = 0;
 float volts = 0.0;
 
 int main()
-{
-    int ledID = 0;
-    
-    InitRCC();
-    InitVTimers();
-    STM_EVAL_LEDInit(LED4);
-    STM_EVAL_LEDInit(LED3);
-    STM_EVAL_LEDInit(LED5);
-    STM_EVAL_LEDInit(LED6);
+{   
     
 //    //ADC test
 //    InitTrimmer(TRIMMER_1);
@@ -41,25 +36,58 @@ int main()
 //        volts = 2.979 * ((float)dacValue / (float)MAX_ANALOG_VALUE_12b);
 //    } 
     
+    TestLEDsButtonsAndSwitches();
+    
+}
+ void TestLEDsButtonsAndSwitches(void)
+ {    
+    InitRCC();
+    InitVTimers();
+    
+    InitButton(BUTTON_1);
+    InitButton(BUTTON_2);
+    InitButton(BUTTON_3);
+    InitButton(BUTTON_4);
+    InitButton(BUTTON_5);
+    InitButton(BUTTON_6);
+    InitButton(BUTTON_7);
+    InitButton(BUTTON_8);
+    
+    InitLED(LED_1);
+    InitLED(LED_2);
+    InitLED(LED_3);
+    InitLED(LED_4);
+    InitLED(LED_5);
+    InitLED(LED_6);
+    InitLED(LED_7);
+    InitLED(LED_8);
+    
+    InitSwitch(SWITCH_1);
+    InitSwitch(SWITCH_2);
+    
+    int ledID = LED_1;
+    
     SetVTimerValue(TIMER_1, 500);
     
-    ClearVTimer(TIMER_15);
-    ClearVTimer(TIMER_10);
-    ClearVTimer(TIMER_12);
     while(1)
     {
         if(IsVTimerElapsed(TIMER_1) == ELAPSED)
         {
-            STM_EVAL_LEDOff(LED3);
-            STM_EVAL_LEDOff(LED4);
-            STM_EVAL_LEDOff(LED5);
-            STM_EVAL_LEDOff(LED6);
+            // set all LEDs to OFF state
+            SetLED(LED_1, OFF);
+            SetLED(LED_2, OFF);
+            SetLED(LED_3, OFF);
+            SetLED(LED_4, OFF);
+            SetLED(LED_5, OFF);
+            SetLED(LED_6, OFF);
+            SetLED(LED_7, OFF);
+            SetLED(LED_8, OFF);
             
-            STM_EVAL_LEDOn(ledID);
+            SetLED(ledID, ON);
             
-            if(ledID == 3)
+            if(ledID == LED_8)
             {
-                ledID = 0;
+                ledID = LED_1;
             }
             else
             {
@@ -72,5 +100,4 @@ int main()
         VTimerTask();
         
     }
-    
-}
+ }
