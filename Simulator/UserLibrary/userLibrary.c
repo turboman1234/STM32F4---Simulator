@@ -125,10 +125,10 @@ int GetSwitchState(int switchNumber)
     switch(switchNumber)
     {
     case SWITCH_1:
-        switchState = GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_1);
+        switchState = GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_14);
         break;
     case SWITCH_2:
-        switchState = GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_0);
+        switchState = GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_15);
         break;
     }
     

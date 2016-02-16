@@ -236,11 +236,11 @@ void InitSwitch(int switchID)
     case SWITCH_1:
         
         /* SWITCH_1 ----> pin PE1 */
-        RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE, ENABLE);
+        RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
         
         GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
         GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
+        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14;
         
         GPIO_Init(GPIOE, &GPIO_InitStructure);
         
@@ -248,11 +248,11 @@ void InitSwitch(int switchID)
         
     case SWITCH_2:
         /* SWITCH_2 ----> pin PE0 */
-        RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE, ENABLE);
+        RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
         
         GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
         GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
         
         GPIO_Init(GPIOE, &GPIO_InitStructure);
         
