@@ -7,16 +7,24 @@
 #include "initPeripheral.h"
 #include "userLibrary.h"
 #include "VTimer.h"
+#include "usart.h"
+#include "mytim.h"
+#include "serial.h"
+#include "mbslave.h"
+#include "rs232.h"
 
 
 extern RCC_ClocksTypeDef MYCLOCKS;
+extern ModBusSlaveUnit ModBusSlaves[MAX_MODBUS_SLAVE_DEVICES];
 
  void TestLEDs(void);
  void TestButtons(void);
  void TestSwitches(void);
  void TestTrimmers(void);
+ void TestRS232Slave(void);
 
 
+ 
 int trimmerValue, dacValue = 0;
 float volts = 0.0;
 
@@ -40,7 +48,7 @@ int main()
 //    } 
 
     /*      TEST 1 - Running Light    
-    TestLEDsButtonsAndSwitches();
+    TestLEDs();
     */
     
     /*      TEST 2 - press button - light led
@@ -55,10 +63,64 @@ int main()
     TestTrimmers();
     */
     
+    //TestRS232Slave();
+    
+    
+    InitRCC();
+    InitVTimers();
+    
+    InitTIM4();
+    InitUSART3();
+
+    InitLED(LED_1);
+    
+
+    //InitSerial();
+    
+    InitNewMBSlaveDevices();
+    
+    RS232Init();
+    
+    while(1)
+    {
+        VTimerTask();
+        
+        RS232PollSlave();
+        
+        if(ModBusSlaves[0].outputs[0] == ON)
+            SetLED(LED_1, ON);
+        else
+            SetLED(LED_1, OFF);
+    }
 }
 
+void TestRS232Slave(void)
+{
+    InitRCC();
+    InitVTimers();
+    InitLED(LED_1);
+    
+    InitTIM4();
+    InitSerial();
+    
+    RS232Init();
+    
+    while(1)
+    {
+        VTimerTask();
+        
+        RS232PollSlave();
+        
+        if(ModBusSlaves[0].outputs[0] == ON)
+            SetLED(LED_1, ON);
+        else
+            SetLED(LED_1, OFF);
+    }
+}
+
+
  void TestLEDs(void)
- {    
+ {  
     InitRCC();
     InitVTimers();
     
