@@ -43,7 +43,7 @@ static volatile eRcvState RcvState;
 // ..................UART_RX..........................
 
 
-void RS232Iint(void)
+void RS232Init(void)
 {    
     RcvState = STATE_RX_IDLE;
     SndState = STATE_TX_IDLE;  
@@ -136,22 +136,22 @@ void RS232_handle_request( void )
         switch(ModBusSlaves[RS232ActiveSlaveIndex].recieveBuffer[1])
         {
         case 1:
-            mblen = process_cmd1();
+            mblen = RS232_process_cmd1();
             break;
         case 2:
-            mblen = process_cmd2();
+            mblen = RS232_process_cmd2();
             break;
         case 3:
-            mblen = process_cmd3();
+            mblen = RS232_process_cmd3();
             break;
         case 5:
-            mblen = process_cmd5();
+            mblen = RS232_process_cmd5();
             break;
         case 15:
-            mblen = process_cmd15();
+            mblen = RS232_process_cmd15();
             break;
         case 16:
-            mblen = process_cmd16();
+            mblen = RS232_process_cmd16();
             break;
         default:
             return;
