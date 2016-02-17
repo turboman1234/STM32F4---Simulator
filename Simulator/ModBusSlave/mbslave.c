@@ -12,6 +12,9 @@ static int ActiveSlaveIndex = INVALID_SLAVE_INDEX;
 
 
 extern ModBusSlaveUnit ModBusSlaves[MAX_MODBUS_SLAVE_DEVICES];
+
+
+ModBusSlaveUnit ModBusSlaves[MAX_MODBUS_SLAVE_DEVICES];
 unsigned char RecieveBuffer[PACKET_SIZE];
 unsigned char ResponseBuffer[RESPONSE_SIZE];
 
