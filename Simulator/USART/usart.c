@@ -2,6 +2,7 @@
 #include "definitions.h"
 #include "VTimer.h"
 #include "mbslave.h"
+#include "rs232.h"
 #include "usart.h"
 
 //USART_2 is for ModBus communication
@@ -11,8 +12,8 @@ void InitUSART2(void)
     USART_InitTypeDef MYUSART;
     NVIC_InitTypeDef MYNVIC;
     
-    RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOA, ENABLE);
-    RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART2, ENABLE);
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
     
     /* TX pin*/
     MYGPIO.GPIO_Mode = GPIO_Mode_AF;
@@ -56,8 +57,8 @@ void InitUSART3(void)
     USART_InitTypeDef MYUSART;
     NVIC_InitTypeDef MYNVIC;
     
-    RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOD, ENABLE);
-    RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART3, ENABLE);
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
     
     /* TX pin*/
     MYGPIO.GPIO_Mode = GPIO_Mode_AF;
@@ -85,8 +86,8 @@ void InitUSART3(void)
     USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
     MYNVIC.NVIC_IRQChannel = USART3_IRQn;
     MYNVIC.NVIC_IRQChannelCmd = ENABLE;
-    MYNVIC.NVIC_IRQChannelPreemptionPriority = 0;
-    MYNVIC.NVIC_IRQChannelSubPriority = 0;
+    MYNVIC.NVIC_IRQChannelPreemptionPriority = 1;
+    MYNVIC.NVIC_IRQChannelSubPriority = 1;
     USART_ClearFlag(USART3, USART_FLAG_RXNE);
     USART_ClearITPendingBit(USART3, USART_IT_RXNE);
     NVIC_Init(&MYNVIC);
@@ -177,4 +178,13 @@ void USART2_IRQHandler(void)
     
     USART_ClearFlag(USART2, USART_FLAG_RXNE);
     USART_ClearITPendingBit(USART2, USART_IT_RXNE);
+}
+
+//This handler is connected with RS232 Slave devices - it recieves requests
+void USART3_IRQHandler(void)
+{
+    RS232ReceiveFSM();
+    
+    USART_ClearFlag(USART3, USART_FLAG_RXNE);
+    USART_ClearITPendingBit(USART3, USART_IT_RXNE);
 }

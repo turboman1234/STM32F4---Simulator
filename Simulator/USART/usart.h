@@ -15,6 +15,7 @@ void InitUSART3(void);
 unsigned char recieveMyUSART(int usartID);
 unsigned char sendMyUSART(char *data, unsigned char count, int usartID, int timerType, int miliseconds);
 void USART2_IRQHandler(void);
+void USART3_IRQHandler(void);
 
 #endif
 
