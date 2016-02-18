@@ -12,7 +12,7 @@
       <name>General</name>
       <archiveVersion>3</archiveVersion>
       <data>
-        <version>22</version>
+        <version>24</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>1</debug>
         <option>
@@ -26,11 +26,6 @@
         <option>
           <name>ListPath</name>
           <state>Debug\List</state>
-        </option>
-        <option>
-          <name>Variant</name>
-          <version>21</version>
-          <state>40</state>
         </option>
         <option>
           <name>GEndianMode</name>
@@ -59,11 +54,6 @@
           <state>0</state>
         </option>
         <option>
-          <name>FPU</name>
-          <version>2</version>
-          <state>5</state>
-        </option>
-        <option>
           <name>OGCoreOrChip</name>
           <state>1</state>
         </option>
@@ -87,7 +77,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.30.1.7765</state>
+          <state>7.40.3.8937</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -136,14 +126,9 @@
           <state>$TOOLKIT_DIR$\INC\c\DLib_Config_Normal.h</state>
         </option>
         <option>
-          <name>GFPUCoreSlave</name>
-          <version>21</version>
-          <state>40</state>
-        </option>
-        <option>
           <name>GBECoreSlave</name>
-          <version>21</version>
-          <state>40</state>
+          <version>22</version>
+          <state>39</state>
         </option>
         <option>
           <name>OGUseCmsis</name>
@@ -156,6 +141,34 @@
         <option>
           <name>GRuntimeLibThreads</name>
           <state>0</state>
+        </option>
+        <option>
+          <name>CoreVariant</name>
+          <version>22</version>
+          <state>39</state>
+        </option>
+        <option>
+          <name>GFPUDeviceSlave</name>
+          <state>STM32F407VG	ST STM32F407VG</state>
+        </option>
+        <option>
+          <name>FPU2</name>
+          <version>0</version>
+          <state>4</state>
+        </option>
+        <option>
+          <name>NrRegs</name>
+          <version>0</version>
+          <state>1</state>
+        </option>
+        <option>
+          <name>NEON</name>
+          <state>0</state>
+        </option>
+        <option>
+          <name>GFPUCoreSlave2</name>
+          <version>22</version>
+          <state>39</state>
         </option>
       </data>
     </settings>
@@ -318,6 +331,7 @@
           <state>$PROJ_DIR$/ModBusSlave</state>
           <state>$PROJ_DIR$/ModBusMaster</state>
           <state>$PROJ_DIR$/MyTimers</state>
+          <state>$PROJ_DIR$/RS232</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -600,7 +614,7 @@
         <debug>1</debug>
         <option>
           <name>OOCOutputFormat</name>
-          <version>2</version>
+          <version>3</version>
           <state>0</state>
         </option>
         <option>
@@ -627,6 +641,7 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
+        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -969,7 +984,7 @@
       <name>General</name>
       <archiveVersion>3</archiveVersion>
       <data>
-        <version>22</version>
+        <version>24</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>0</debug>
         <option>
@@ -983,11 +998,6 @@
         <option>
           <name>ListPath</name>
           <state>Release\List</state>
-        </option>
-        <option>
-          <name>Variant</name>
-          <version>21</version>
-          <state>0</state>
         </option>
         <option>
           <name>GEndianMode</name>
@@ -1016,11 +1026,6 @@
           <state>0</state>
         </option>
         <option>
-          <name>FPU</name>
-          <version>2</version>
-          <state>0</state>
-        </option>
-        <option>
           <name>OGCoreOrChip</name>
           <state>0</state>
         </option>
@@ -1044,7 +1049,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state></state>
+          <state>7.40.3.8937</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -1056,7 +1061,7 @@
         </option>
         <option>
           <name>OGChipSelectEditMenu</name>
-          <state></state>
+          <state>Default	None</state>
         </option>
         <option>
           <name>GenLowLevelInterface</name>
@@ -1093,13 +1098,8 @@
           <state></state>
         </option>
         <option>
-          <name>GFPUCoreSlave</name>
-          <version>21</version>
-          <state>1</state>
-        </option>
-        <option>
           <name>GBECoreSlave</name>
-          <version>21</version>
+          <version>22</version>
           <state>1</state>
         </option>
         <option>
@@ -1112,6 +1112,34 @@
         </option>
         <option>
           <name>GRuntimeLibThreads</name>
+          <state>0</state>
+        </option>
+        <option>
+          <name>CoreVariant</name>
+          <version>22</version>
+          <state>0</state>
+        </option>
+        <option>
+          <name>GFPUDeviceSlave</name>
+          <state>Default	None</state>
+        </option>
+        <option>
+          <name>FPU2</name>
+          <version>0</version>
+          <state>0</state>
+        </option>
+        <option>
+          <name>NrRegs</name>
+          <version>0</version>
+          <state>0</state>
+        </option>
+        <option>
+          <name>NEON</name>
+          <state>0</state>
+        </option>
+        <option>
+          <name>GFPUCoreSlave2</name>
+          <version>22</version>
           <state>0</state>
         </option>
       </data>
@@ -1541,7 +1569,7 @@
         <debug>0</debug>
         <option>
           <name>OOCOutputFormat</name>
-          <version>2</version>
+          <version>3</version>
           <state>0</state>
         </option>
         <option>
@@ -1568,6 +1596,7 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
+        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -1935,6 +1964,12 @@
   </group>
   <group>
     <name>ModBusMaster</name>
+    <file>
+      <name>$PROJ_DIR$\ModBusMaster\mbmaster.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\ModBusMaster\mbmaster.h</name>
+    </file>
   </group>
   <group>
     <name>ModBusSlave</name>
@@ -1967,6 +2002,15 @@
     </file>
     <file>
       <name>$PROJ_DIR$\RCC\rcc.h</name>
+    </file>
+  </group>
+  <group>
+    <name>RS232</name>
+    <file>
+      <name>$PROJ_DIR$\RS232\rs232.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\RS232\rs232.h</name>
     </file>
   </group>
   <group>
