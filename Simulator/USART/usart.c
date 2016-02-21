@@ -39,7 +39,7 @@ void InitUSART2(void)
     USART_Init(USART2, &MYUSART);
     
     USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
-    MYNVIC.NVIC_IRQChannel = USART3_IRQn;
+    MYNVIC.NVIC_IRQChannel = USART2_IRQn;
     MYNVIC.NVIC_IRQChannelCmd = ENABLE;
     MYNVIC.NVIC_IRQChannelPreemptionPriority = 0;
     MYNVIC.NVIC_IRQChannelSubPriority = 0;
@@ -56,24 +56,24 @@ void InitUSART3(void)
     GPIO_InitTypeDef MYGPIO;
     USART_InitTypeDef MYUSART;
     NVIC_InitTypeDef MYNVIC;
-    
+
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);    
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
     
-    /* TX pin*/
+    GPIO_PinAFConfig(GPIOD, GPIO_Pin_8, GPIO_AF_USART3);        
+    GPIO_PinAFConfig(GPIOD, GPIO_Pin_9, GPIO_AF_USART3);
+    
+    /* TX pin and RX pin */
     MYGPIO.GPIO_Mode = GPIO_Mode_AF;
     MYGPIO.GPIO_Speed = GPIO_Speed_50MHz;
-    MYGPIO.GPIO_Pin = GPIO_Pin_8;
-    
+    MYGPIO.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9;
+    MYGPIO.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    MYGPIO.GPIO_OType = GPIO_OType_PP;
+   
     GPIO_Init(GPIOD, &MYGPIO);
     
-    /* RX pin */
-    MYGPIO.GPIO_Mode = GPIO_Mode_AF;
-    MYGPIO.GPIO_Speed = GPIO_Speed_50MHz;
-    MYGPIO.GPIO_Pin = GPIO_Pin_9;
     
-    GPIO_Init(GPIOD, &MYGPIO);
-        
+    //USART_DeInit(USART3);
     
     MYUSART.USART_BaudRate = USART_BAUD_RATE_19200;
     MYUSART.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
@@ -83,16 +83,19 @@ void InitUSART3(void)
     MYUSART.USART_WordLength = USART_WordLength_8b;
     USART_Init(USART3, &MYUSART);
     
+    
     USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
+    
     MYNVIC.NVIC_IRQChannel = USART3_IRQn;
     MYNVIC.NVIC_IRQChannelCmd = ENABLE;
-    MYNVIC.NVIC_IRQChannelPreemptionPriority = 1;
-    MYNVIC.NVIC_IRQChannelSubPriority = 1;
+    MYNVIC.NVIC_IRQChannelPreemptionPriority = 0;
+    MYNVIC.NVIC_IRQChannelSubPriority = 0;
+    NVIC_Init(&MYNVIC);
+        
     USART_ClearFlag(USART3, USART_FLAG_RXNE);
     USART_ClearITPendingBit(USART3, USART_IT_RXNE);
-    NVIC_Init(&MYNVIC);
     
-    USART_Cmd(USART3, ENABLE);	
+    USART_Cmd(USART3, ENABLE);
 }
 
 
