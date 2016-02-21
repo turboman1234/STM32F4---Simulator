@@ -70,7 +70,7 @@ int main()
     InitVTimers();
     
     InitTIM4();
-    InitUSART3();
+    InitUSART2();
 
     InitLED(LED_1);
     
@@ -85,7 +85,11 @@ int main()
     {
         VTimerTask();
         
-        RS232PollSlave();
+        if(USART_GetFlagStatus(USART2, USART_FLAG_RXNE) == SET)
+        {
+            RS232PollSlave();
+            USART_ClearFlag(USART2, USART_FLAG_RXNE);
+        }
         
         if(ModBusSlaves[0].outputs[0] == ON)
             SetLED(LED_1, ON);
