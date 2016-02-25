@@ -43,6 +43,32 @@ static volatile eRcvState RcvState;
 // ..................UART_RX..........................
 
 
+/*
+    This function recognizes for which of all slaves is addressed the current message and sets global int ActiveSlaveAddress with found slave.
+    If it's not found slave ActiveSlaveAddress = INVALID_SLAVE_ADDRESS
+    The function returns TRUE - recieve address is valid, FALSE - recive address is not valid
+    unsigned char recieveAddress - first byte from input message
+*/
+BOOL RS232SlaveAddressRecognition(unsigned char recieveAddress)
+{
+    int i;
+    
+    BOOL isRecieveAddressValid = FALSE;
+    
+    for(i = 0; i < MAX_MODBUS_SLAVE_DEVICES; i++)
+    {
+        if(ModBusSlaves[i].address == recieveAddress)
+        {
+            ModBusSlaves[i].isSlaveActive = TRUE;
+            isRecieveAddressValid = TRUE;
+            RS232ActiveSlaveIndex = i;
+            break;
+        }
+    }
+    
+    return isRecieveAddressValid;
+}
+
 void RS232Init(void)
 {    
     RcvState = STATE_RX_IDLE;
@@ -67,7 +93,7 @@ void RS232PollSlave( void )
         case EV_FRAME_RECEIVED:
             { 
                 RcvAddress = RS232RecieveBuffer[0];
-                isRcvAddressValid = MBSlaveAddressRecognition(RcvAddress);
+                isRcvAddressValid = RS232SlaveAddressRecognition(RcvAddress);
                 
                 if(isRcvAddressValid == TRUE)
                 {	
