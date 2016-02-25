@@ -66,37 +66,53 @@ int main()
     //TestRS232Slave();
     
     
+    unsigned char Str[8] = {'a', ' ', 'b', ' ', 'c', ' ', 'd', ' '};
+    
+    
     InitRCC();
     InitVTimers();
     
     InitTIM4();
-    InitUSART2();
+    InitUSART3();
 
     InitLED(LED_1);
-    
-
-    //InitSerial();
-    
+       
     InitNewMBSlaveDevices();
     
     RS232Init();
-    
+
     while(1)
     {
         VTimerTask();
         
-        if(USART_GetFlagStatus(USART2, USART_FLAG_RXNE) == SET)
-        {
-            RS232PollSlave();
-            USART_ClearFlag(USART2, USART_FLAG_RXNE);
-        }
+        RS232PollSlave();
         
         if(ModBusSlaves[0].outputs[0] == ON)
+        {
             SetLED(LED_1, ON);
+        }
         else
+        {
             SetLED(LED_1, OFF);
+        }
     }
 }
+
+/*      Test USART 3
+void TestUSART3Sending()
+{    
+    InitRCC();
+
+    InitUSART3();
+ 
+    while (1){
+        
+        while (USART_GetFlagStatus(USART3,USART_FLAG_TXE) == RESET);
+        USART_SendData(USART3, 'a');    
+    }
+}
+
+*/
 
 void TestRS232Slave(void)
 {
