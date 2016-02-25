@@ -90,11 +90,13 @@ void CopyModBusMemory(unsigned char *source, unsigned char *destination, unsigne
 {
     int i;
     
+    unsigned char *src, *dst;
+    src = source;
+    dst = destination;
+        
     for(i = 0; i < cellsNumber; i++)
     {
-        *destination = *source;
-        destination++;
-        source++;
+        dst[i] = src[i];
     }
 }
 
