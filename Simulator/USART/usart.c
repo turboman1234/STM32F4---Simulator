@@ -15,6 +15,9 @@ void InitUSART2(void)
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
     
+    GPIO_PinAFConfig(GPIOA, GPIO_PinSource2, GPIO_AF_USART2);        
+    GPIO_PinAFConfig(GPIOA, GPIO_PinSource3, GPIO_AF_USART2);
+    
     /* TX pin*/
     MYGPIO.GPIO_Mode = GPIO_Mode_AF;
     MYGPIO.GPIO_Speed = GPIO_Speed_50MHz;
@@ -41,7 +44,7 @@ void InitUSART2(void)
     USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
     MYNVIC.NVIC_IRQChannel = USART2_IRQn;
     MYNVIC.NVIC_IRQChannelCmd = ENABLE;
-    MYNVIC.NVIC_IRQChannelPreemptionPriority = 0;
+    MYNVIC.NVIC_IRQChannelPreemptionPriority = 1;
     MYNVIC.NVIC_IRQChannelSubPriority = 0;
     USART_ClearFlag(USART2, USART_FLAG_RXNE);
     USART_ClearITPendingBit(USART2, USART_IT_RXNE);
@@ -60,18 +63,42 @@ void InitUSART3(void)
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);    
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
     
-    GPIO_PinAFConfig(GPIOD, GPIO_Pin_8, GPIO_AF_USART3);        
-    GPIO_PinAFConfig(GPIOD, GPIO_Pin_9, GPIO_AF_USART3);
+    GPIO_PinAFConfig(GPIOD, GPIO_PinSource8, GPIO_AF_USART3);        
+    GPIO_PinAFConfig(GPIOD, GPIO_PinSource9, GPIO_AF_USART3);
     
-    /* TX pin and RX pin */
-    MYGPIO.GPIO_Mode = GPIO_Mode_AF;
-    MYGPIO.GPIO_Speed = GPIO_Speed_50MHz;
-    MYGPIO.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9;
-    MYGPIO.GPIO_PuPd = GPIO_PuPd_NOPULL;
-    MYGPIO.GPIO_OType = GPIO_OType_PP;
-   
-    GPIO_Init(GPIOD, &MYGPIO);
+//    /* TX pin and RX pin */
+//    MYGPIO.GPIO_Mode = GPIO_Mode_AF;
+//    MYGPIO.GPIO_Speed = GPIO_Speed_50MHz;
+//    MYGPIO.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9;
+//    MYGPIO.GPIO_PuPd = GPIO_PuPd_UP;
+//    MYGPIO.GPIO_OType = GPIO_OType_PP;
     
+//        /* TX pin*/
+//    MYGPIO.GPIO_Mode = GPIO_Mode_AF;
+//    MYGPIO.GPIO_Speed = GPIO_Speed_50MHz;
+//    MYGPIO.GPIO_Pin = GPIO_Pin_8;
+//    
+//    GPIO_Init(GPIOD, &MYGPIO);
+//    
+//    /* RX pin */
+//    MYGPIO.GPIO_Mode = GPIO_Mode_AF;
+//    MYGPIO.GPIO_Speed = GPIO_Speed_50MHz;
+//    MYGPIO.GPIO_Pin = GPIO_Pin_9;
+//    
+//    GPIO_Init(GPIOD, &MYGPIO);
+
+	MYGPIO.GPIO_Pin = GPIO_Pin_9; // rx
+	MYGPIO.GPIO_Mode = GPIO_Mode_AF;
+	MYGPIO.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	MYGPIO.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOD, &MYGPIO);
+
+	MYGPIO.GPIO_Pin = GPIO_Pin_8 ; // tx
+	MYGPIO.GPIO_Mode = GPIO_Mode_AF;
+	MYGPIO.GPIO_PuPd = GPIO_PuPd_UP;
+	MYGPIO.GPIO_OType = GPIO_OType_PP;
+	MYGPIO.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOD, &MYGPIO);    
     
     //USART_DeInit(USART3);
     
@@ -88,8 +115,8 @@ void InitUSART3(void)
     
     MYNVIC.NVIC_IRQChannel = USART3_IRQn;
     MYNVIC.NVIC_IRQChannelCmd = ENABLE;
-    MYNVIC.NVIC_IRQChannelPreemptionPriority = 0;
-    MYNVIC.NVIC_IRQChannelSubPriority = 0;
+    MYNVIC.NVIC_IRQChannelPreemptionPriority = 1;
+    MYNVIC.NVIC_IRQChannelSubPriority = 1;
     NVIC_Init(&MYNVIC);
         
     USART_ClearFlag(USART3, USART_FLAG_RXNE);
