@@ -19,7 +19,7 @@ void InitTIM2(void)
     MYNVIC.NVIC_IRQChannel = TIM2_IRQn;
     MYNVIC.NVIC_IRQChannelCmd = ENABLE;
     MYNVIC.NVIC_IRQChannelPreemptionPriority = 0;
-    MYNVIC.NVIC_IRQChannelSubPriority = 1;
+    MYNVIC.NVIC_IRQChannelSubPriority = 0;
     NVIC_Init(&MYNVIC);
    
     TIM_DeInit(TIM2);
@@ -61,7 +61,7 @@ void InitTIM3(void)
     MYNVIC.NVIC_IRQChannel = TIM3_IRQn;
     MYNVIC.NVIC_IRQChannelCmd = ENABLE;
     MYNVIC.NVIC_IRQChannelPreemptionPriority = 0;
-    MYNVIC.NVIC_IRQChannelSubPriority = 2;
+    MYNVIC.NVIC_IRQChannelSubPriority = 1;
     NVIC_Init(&MYNVIC);	
     
     TIM_DeInit(TIM3);
@@ -143,7 +143,7 @@ void InitTIM4(void)
     MYNVIC.NVIC_IRQChannel = TIM4_IRQn;
     MYNVIC.NVIC_IRQChannelCmd = ENABLE;
     MYNVIC.NVIC_IRQChannelPreemptionPriority = 0;
-    MYNVIC.NVIC_IRQChannelSubPriority = 3;
+    MYNVIC.NVIC_IRQChannelSubPriority = 2;
     NVIC_Init(&MYNVIC);	
     
     TIM_DeInit(TIM4);
@@ -191,7 +191,7 @@ void ReInitRS232Timer(unsigned short miliseconds)
 
 void RS232TimerEnable(unsigned short miliseconds)
 {    
-    TIM_Cmd(TIM4, DISABLE);
+    TIM_Cmd(TIM4, ENABLE);
     
     ReInitRS232Timer(miliseconds);
 }
