@@ -167,13 +167,12 @@ void MBPollSlave( void )
                     } 
                 }
                 break;
-                
-            case EV_EXECUTE:
-                {	
-                    MB_handle_request();
-                    break;
-                }
             }
+        case EV_EXECUTE:
+            {	
+                MB_handle_request();
+                break;
+            }   
         }
     }
 }
@@ -192,7 +191,7 @@ void MBReceiveFSM( void )
         RecieveBuffer[MBRcvBufferPos++] = Byte;
         MBRcvState = STATE_RX_RCV;
         
-        ModBusTimerEnable(10);
+        ModBusTimerEnable(T_10_MS); // 10 ms are enought for waiting one frame by 19200 baude rate
         break;
         
     case STATE_RX_RCV:
@@ -210,32 +209,28 @@ void MB_handle_request( void )
     int mblen;
     unsigned int crc;
     
-    //Clearing Response
-    ClearModBusSlaveMemory(ResponseBuffer, RESPONSE_SIZE);
-    ClearModBusSlaveMemory(ModBusSlaves[ActiveSlaveIndex].responseBuffer, RESPONSE_SIZE);
-    
     mblen = 0;
     
     if(ModBusSlaves[ActiveSlaveIndex].recieveBuffer[0] == ModBusSlaves[ActiveSlaveIndex].address)
     {
         switch(ModBusSlaves[ActiveSlaveIndex].recieveBuffer[1])
         {
-        case 1:
+        case 1: //Read Coil Status
             mblen = process_cmd1();
             break;
-        case 2:
+        case 2: //Read Discrete Input
             mblen = process_cmd2();
             break;
-        case 3:
+        case 3: //Read Holding Registeers
             mblen = process_cmd3();
             break;
-        case 5:
+        case 5: //Force Single Coil
             mblen = process_cmd5();
             break;
-        case 15:
+        case 15: //Force Multiple Coils
             mblen = process_cmd15();
             break;
-        case 16:
+        case 16: //Preset Multiple Registers
             mblen = process_cmd16();
             break;
         default:
@@ -278,6 +273,14 @@ void MB_slave_transmit( void )
     {
         OutString(ResponseBuffer, MBSndBufferPos, USART_2, MB_SLAVE_TIMER, T_10_MS);
         MBSndState = STATE_TX_IDLE;
+        
+        //Clearing Recive buffers
+        ClearModBusSlaveMemory(RecieveBuffer, PACKET_SIZE);
+        ClearModBusSlaveMemory(ModBusSlaves[ActiveSlaveIndex].recieveBuffer, PACKET_SIZE);
+        
+        //Clearing Response
+        ClearModBusSlaveMemory(ResponseBuffer, RESPONSE_SIZE);
+        ClearModBusSlaveMemory(ModBusSlaves[ActiveSlaveIndex].responseBuffer, RESPONSE_SIZE);
     }
 }
 
@@ -488,7 +491,7 @@ char process_cmd15(void)
         return 0; // check BYTE COUNT
     }
     
-    ucSize = sizeof(unsigned char);
+    ucSize = sizeof(unsigned char) * 8; //bits in 1 unsigned char
     startAddress = RecieveBuffer[3];
     coilsCount = RecieveBuffer[5];
     bytesCount = RecieveBuffer[6];
