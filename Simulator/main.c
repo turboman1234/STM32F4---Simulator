@@ -21,12 +21,14 @@ extern ModBusSlaveUnit ModBusSlaves[MAX_MODBUS_SLAVE_DEVICES];
  void TestButtons(void);
  void TestSwitches(void);
  void TestTrimmers(void);
+ void TestUSART3Sending();
  void TestRS232Slave(void);
 
 
  
 int trimmerValue, dacValue = 0;
 float volts = 0.0;
+int trimmer1, trimmer2, trimmer3;
 
 int main()
 {   
@@ -63,13 +65,19 @@ int main()
     TestTrimmers();
     */
     
+    /*      TEST 5 - USART 3 sending
+    TestUSART3Sending()
+    */
+    
+    /*
+            TEST 6 - test Read Coils (cmd_1), Write Single Coil (cmd_5), Write Multiple Coils (cmd_15) */
     TestRS232Slave();
     
     
 
 }
 
-/*      Test USART 3
+
 void TestUSART3Sending()
 {    
     InitRCC();
@@ -82,8 +90,6 @@ void TestUSART3Sending()
         USART_SendData(USART3, 'a');    
     }
 }
-
-*/
 
 void TestRS232Slave(void)
 {
@@ -104,6 +110,8 @@ void TestRS232Slave(void)
     InitLED(LED_7);
     InitLED(LED_8);
     
+    InitButton(BUTTON_7);
+    
     InitNewMBSlaveDevices();
     
     RS232Init();
@@ -114,6 +122,8 @@ void TestRS232Slave(void)
         
         RS232PollSlave();
         
+        
+        // Test cmd 1, 5, 15
         for(i = 0; i < 8; i++)// there are only 8 LEDs
         {
             led = LED_1 + i;
@@ -127,12 +137,23 @@ void TestRS232Slave(void)
             }   
         }
         
+        // Test cmd 2
+        if(GetButtonState(BUTTON_7) == PRESSED)
+        {
+            ModBusSlaves[0].inputs[7] = PRESSED;
+        }
+        else
+        {
+            ModBusSlaves[0].inputs[7] = NOT_PRESSED;
+        }
+        
+        
+        
         RS232_slave_transmit();
     }
 }
 
-
- void TestLEDs(void)
+void TestLEDs(void)
  {  
     InitRCC();
     InitVTimers();
@@ -384,7 +405,6 @@ void TestSwitches(void)
 }
 */
 
-int trimmer1, trimmer2, trimmer3;
 
 void TestTrimmers(void)
 {
