@@ -63,39 +63,10 @@ int main()
     TestTrimmers();
     */
     
-    //TestRS232Slave();
+    TestRS232Slave();
     
     
-    unsigned char Str[8] = {'a', ' ', 'b', ' ', 'c', ' ', 'd', ' '};
-    
-    
-    InitRCC();
-    InitVTimers();
-    
-    InitTIM4();
-    InitUSART3();
 
-    InitLED(LED_1);
-       
-    InitNewMBSlaveDevices();
-    
-    RS232Init();
-
-    while(1)
-    {
-        VTimerTask();
-        
-        RS232PollSlave();
-        
-        if(ModBusSlaves[0].outputs[0] == ON)
-        {
-            SetLED(LED_1, ON);
-        }
-        else
-        {
-            SetLED(LED_1, OFF);
-        }
-    }
 }
 
 /*      Test USART 3
@@ -116,12 +87,24 @@ void TestUSART3Sending()
 
 void TestRS232Slave(void)
 {
+    int i, led;
+    
     InitRCC();
     InitVTimers();
-    InitLED(LED_1);
     
     InitTIM4();
-    InitSerial();
+    InitUSART3();
+    
+    InitLED(LED_1);
+    InitLED(LED_2);
+    InitLED(LED_3);
+    InitLED(LED_4);
+    InitLED(LED_5);
+    InitLED(LED_6);
+    InitLED(LED_7);
+    InitLED(LED_8);
+    
+    InitNewMBSlaveDevices();
     
     RS232Init();
     
@@ -131,10 +114,20 @@ void TestRS232Slave(void)
         
         RS232PollSlave();
         
-        if(ModBusSlaves[0].outputs[0] == ON)
-            SetLED(LED_1, ON);
-        else
-            SetLED(LED_1, OFF);
+        for(i = 0; i < 8; i++)// there are only 8 LEDs
+        {
+            led = LED_1 + i;
+            if(ModBusSlaves[0].outputs[i] == ON)
+            {
+                SetLED(led, ON);
+            }
+            else
+            {
+                SetLED(led, OFF);
+            }   
+        }
+        
+        RS232_slave_transmit();
     }
 }
 
