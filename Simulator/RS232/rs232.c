@@ -108,12 +108,11 @@ void RS232PollSlave( void )
                     } 
                 }
                 break;
-                
-            case EV_EXECUTE:
-                {	
-                    RS232_handle_request();
-                    break;
-                }
+            }    
+        case EV_EXECUTE:
+            {	
+                RS232_handle_request();
+                break;
             }
         }
     }
@@ -133,7 +132,7 @@ void RS232ReceiveFSM( void )
         RS232RecieveBuffer[RS232RcvBufferPos++] = Byte;
         RcvState = STATE_RX_RCV;
         
-        RS232TimerEnable(T_10_MS);
+        RS232TimerEnable(T_10_MS);// 10 ms are enought for waiting one frame by 19200 baude rate
         break;
         
     case STATE_RX_RCV:
@@ -151,32 +150,28 @@ void RS232_handle_request( void )
     int mblen;
     unsigned int crc;
     
-    //Clearing Response
-    ClearModBusSlaveMemory(RS232ResponseBuffer, RESPONSE_SIZE);
-    ClearModBusSlaveMemory(ModBusSlaves[RS232ActiveSlaveIndex].responseBuffer, RESPONSE_SIZE);
-    
     mblen = 0;
     
     if(ModBusSlaves[RS232ActiveSlaveIndex].recieveBuffer[0] == ModBusSlaves[RS232ActiveSlaveIndex].address)
     {
         switch(ModBusSlaves[RS232ActiveSlaveIndex].recieveBuffer[1])
         {
-        case 1:
+        case 1:                                 // Read Coil Status
             mblen = RS232_process_cmd1();
             break;
-        case 2:
+        case 2:                                // Read Discrete Input
             mblen = RS232_process_cmd2();
             break;
-        case 3:
+        case 3:                                // Read Holding Registeers
             mblen = RS232_process_cmd3();
             break;
-        case 5:
+        case 5:                                // Force Single Coil
             mblen = RS232_process_cmd5();
             break;
-        case 15:
+        case 15:                               // Force Multiple Coils
             mblen = RS232_process_cmd15();
             break;
-        case 16:
+        case 16:                               // Preset Multiple Registers
             mblen = RS232_process_cmd16();
             break;
         default:
@@ -191,7 +186,7 @@ void RS232_handle_request( void )
         RS232ResponseBuffer[mblen + 0] = (unsigned char) crc;
         RS232ResponseBuffer[mblen + 1] = (unsigned char) (crc >> 8);	
         RS232SndBufferPos = mblen + 2; //2 - CRC_LEN
-        
+                
         //copy global RS232ResponseBuffer in active slave's response buffer for regular slave simulation.
         CopyModBusMemory(RS232ResponseBuffer, ModBusSlaves[RS232ActiveSlaveIndex].responseBuffer, RS232SndBufferPos);
     }
@@ -219,6 +214,14 @@ void RS232_slave_transmit( void )
     {
         OutString(RS232ResponseBuffer, RS232SndBufferPos, USART_3, RS232_TIMER, T_10_MS);
         SndState = STATE_TX_IDLE;
+        
+                //Clearing Recive buffers
+        ClearModBusSlaveMemory(RS232RecieveBuffer, PACKET_SIZE);
+        ClearModBusSlaveMemory(ModBusSlaves[RS232ActiveSlaveIndex].recieveBuffer, PACKET_SIZE);
+        
+        //Clearing Response
+        ClearModBusSlaveMemory(RS232ResponseBuffer, RESPONSE_SIZE);
+        ClearModBusSlaveMemory(ModBusSlaves[RS232ActiveSlaveIndex].responseBuffer, RESPONSE_SIZE);
     }
 }
 
@@ -429,7 +432,7 @@ char RS232_process_cmd15(void)
         return 0; // check BYTE COUNT
     }
     
-    ucSize = sizeof(unsigned char);
+    ucSize = sizeof(unsigned char)*8; //bits in 1 unsigned char
     startAddress = RS232RecieveBuffer[3];
     coilsCount = RS232RecieveBuffer[5];
     bytesCount = RS232RecieveBuffer[6];
