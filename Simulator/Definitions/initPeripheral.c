@@ -5,7 +5,9 @@
 #include "initPeripheral.h"
 
 
-/* Configure GPIO pin as button input */
+/* Configure GPIO pin as button input 
+  int buttonID - BUTTON_1 ... BUTTON_8
+*/
 void InitButton(int buttonID)
 {
     assert_param(IS_BUTTON_ID_VALID(buttonID));
@@ -107,7 +109,9 @@ void InitButton(int buttonID)
     }
 }
 
-/* Configure GPIO pin as LED output */
+/* Configure GPIO pin as LED output 
+  int ledID - LED_1 ... LED_8
+*/
 void InitLED(int ledID)
 {
     assert_param(IS_LED_ID_VALID(ledID));
@@ -225,6 +229,9 @@ void InitLED(int ledID)
     }
 }
 
+/* Configure GPIO pin as Switch input 
+  int swtich - SWITCH_1, SWITCH_2
+*/
 void InitSwitch(int switchID)
 {
     assert_param(IS_SWITCH_ID_VALID(switchID));
@@ -260,7 +267,9 @@ void InitSwitch(int switchID)
     }        
 }
 
-/* Configure GPIO pin as digital input */
+/* Configure GPIO pin as digital input 
+  int inputID - INPUT_1 ... INPUT_16
+*/
 void InitInput(int inputID)
 {
     assert_param(IS_INPUT_ID_VALID(inputID));
@@ -454,7 +463,9 @@ void InitInput(int inputID)
     }
 }
 
-/* Configure GPIO pin as digital output */
+/* Configure GPIO pin as digital output 
+  int outputID - OUTPUT_1 ... OUTPUT_16
+*/
 void InitOutput(int outputID)
 {
     assert_param(IS_OUTPUT_ID_VALID(outputID));
@@ -680,7 +691,10 @@ void InitOutput(int outputID)
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
-/* Configure GPIO pin as analog input for Trimmer */
+/* Configure GPIO pin as analog input for Trimmer 
+
+  int trimmerID - TRIMMER_1, TRIMMER_2, TRIMMER_3
+*/
 void InitTrimmer(int trimmerID)
 {   
     assert_param(IS_TRIMMER_ID_VALID(trimmerID));
@@ -729,6 +743,9 @@ void InitTrimmer(int trimmerID)
     Init_ADC3();
 }
 
+/* Configure GPIO pin as ADC input
+  int adcID - ADC_1, ADC_2
+*/
 void InitADC(int adcID)
 {
     assert_param(IS_ADC_ID_VALID(adcID));
@@ -767,6 +784,10 @@ void InitADC(int adcID)
     }
 }
 
+/* Configure GPIO pin as DAC output
+  int dacID - DAC_1, DAC_2
+  int initValue - 0 - 4095
+*/
 void InitDAC(int dacID, int initValue)
 {
     assert_param(IS_DAC_ID_VALID(dacID));

@@ -215,7 +215,7 @@ void RS232_slave_transmit( void )
         OutString(RS232ResponseBuffer, RS232SndBufferPos, USART_3, RS232_TIMER, T_10_MS);
         SndState = STATE_TX_IDLE;
         
-                //Clearing Recive buffers
+        //Clearing Recive buffers
         ClearModBusSlaveMemory(RS232RecieveBuffer, PACKET_SIZE);
         ClearModBusSlaveMemory(ModBusSlaves[RS232ActiveSlaveIndex].recieveBuffer, PACKET_SIZE);
         
