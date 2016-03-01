@@ -12,6 +12,7 @@
 #include "serial.h"
 #include "mbslave.h"
 #include "rs232.h"
+#include "mbmaster.h"
 
 
 extern RCC_ClocksTypeDef MYCLOCKS;
@@ -23,6 +24,7 @@ extern ModBusSlaveUnit ModBusSlaves[MAX_MODBUS_SLAVE_DEVICES];
  void TestTrimmers(void);
  void TestUSART3Sending();
  void TestRS232Slave(void);
+ void TestModBusMaster(void);
 
 
  
@@ -70,9 +72,11 @@ int main()
     */
     
     /*
-            TEST 6 - test Read Coils (cmd_1), Write Single Coil (cmd_5), Write Multiple Coils (cmd_15) */
+            TEST 6 - test Read Coils (cmd_1), Write Single Coil (cmd_5), Write Multiple Coils (cmd_15) 
     TestRS232Slave();
+    */
     
+    TestModBusMaster();
     
 
 }
@@ -90,6 +94,110 @@ void TestUSART3Sending()
         USART_SendData(USART3, 'a');    
     }
 }
+unsigned char Buffer[256];
+void TestModBusMaster(void)
+{
+    unsigned short hrValues[5] = {0x00AA, 0x00BB, 0x00CC, 0x00DD, 0x00EE};
+    unsigned char byte;
+    
+    
+    tModBusMasterCommand MBMasterCommand;
+    
+    MBMasterCommand.coilsData = 0x0F;
+    MBMasterCommand.forceCommand = 0;
+    MBMasterCommand.holdingRegistersValues = hrValues;
+    MBMasterCommand.inputsCount = 3;
+    MBMasterCommand.numberOfHoldingRegisters = 5;
+    MBMasterCommand.quantityOfCoils = 5;
+    MBMasterCommand.slaveID = 1;
+    MBMasterCommand.startAddressLO = 0;
+    
+    
+    InitRCC();
+    InitVTimers();
+    
+    InitTIM3();
+    InitUSART3();
+    
+    InitLED(LED_1);
+    InitLED(LED_2);
+    InitLED(LED_3);
+    InitLED(LED_4);
+    InitLED(LED_5);
+    InitLED(LED_6);
+    InitLED(LED_7);
+    InitLED(LED_8);
+    
+    
+    InitButton(BUTTON_1);
+    InitButton(BUTTON_2);
+    InitButton(BUTTON_3);
+    InitButton(BUTTON_4);
+    InitButton(BUTTON_5); 
+    InitButton(BUTTON_6);
+    
+        
+    while(1)
+    {
+        VTimerTask();
+        
+        //ReadCoil - cmd1
+        if(GetButtonState(BUTTON_1) == PRESSED)
+        {
+            ReadCoilStatus(MBMasterCommand.slaveID, MBMasterCommand.startAddressLO, MBMasterCommand.quantityOfCoils);
+            MBMaster();
+        }
+        
+        //ReadInput - cmd2
+        if(GetButtonState(BUTTON_2) == PRESSED)
+        {
+            ReadInputStatus(MBMasterCommand.slaveID, MBMasterCommand.startAddressLO, MBMasterCommand.inputsCount);
+            MBMaster();
+        }
+        
+        //ReadHoldingRegisters - cmd3
+        if(GetButtonState(BUTTON_3) == PRESSED)
+        {
+            ReadHoldingRegisters(MBMasterCommand.slaveID, MBMasterCommand.startAddressLO, MBMasterCommand.numberOfHoldingRegisters);
+            MBMaster();
+        }
+        
+        //SetSingleCoil - cmd5
+        if(GetButtonState(BUTTON_4) == PRESSED)
+        {
+            ForceSingleCoil(MBMasterCommand.slaveID, MBMasterCommand.startAddressLO, MBMasterCommand.forceCommand);
+            MBMaster();
+        }
+        
+        //SetMultipleCoils - cmd15
+        if(GetButtonState(BUTTON_5) == PRESSED)
+        {
+            ForceMultipleCoils(MBMasterCommand.slaveID, MBMasterCommand.startAddressLO, MBMasterCommand.quantityOfCoils, MBMasterCommand.coilsData);
+            MBMaster();
+        }
+        
+        //WriteHoldingRegisters - cmd16
+        if(GetButtonState(BUTTON_6) == PRESSED)
+        {
+            PresetMultipleRegisters(MBMasterCommand.slaveID, MBMasterCommand.startAddressLO, MBMasterCommand.numberOfHoldingRegisters, MBMasterCommand.holdingRegistersValues);
+            MBMaster();
+        }
+        
+//        byte = recieveMyUSART(USART_3);
+//        
+//        if(byte == 's')
+//        {
+//            SetLED(LED_1, ON);
+//        }
+//        else if (byte == 'o')
+//        {
+//            SetLED(LED_1, OFF);
+//        }
+//        
+        
+    }
+}
+
 
 void TestRS232Slave(void)
 {
