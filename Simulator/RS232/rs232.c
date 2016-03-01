@@ -294,7 +294,7 @@ char RS232_process_cmd2(void)
     {
         return 0; //check No of POINTS HI is 0
     }
-    if((OUTPUTS_NUMBER - RS232RecieveBuffer[3]) < RS232RecieveBuffer[5]) 
+    if((INPUTS_NUMBER - RS232RecieveBuffer[3]) < RS232RecieveBuffer[5]) 
     {
         return 0; //check No of POINTS LO
     }

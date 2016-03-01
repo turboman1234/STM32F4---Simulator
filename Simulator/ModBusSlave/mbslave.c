@@ -353,7 +353,7 @@ char process_cmd2(void)
     {
         return 0; //check No of POINTS HI is 0
     }
-    if((OUTPUTS_NUMBER - RecieveBuffer[3]) < RecieveBuffer[5]) 
+    if((INPUTS_NUMBER - RecieveBuffer[3]) < RecieveBuffer[5]) 
     {
         return 0; //check No of POINTS LO
     }
