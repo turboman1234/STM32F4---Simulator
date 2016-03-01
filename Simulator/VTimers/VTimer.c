@@ -46,7 +46,7 @@ int ConvertTimerIDToVTimerIndex(int timerID)
     int index;
     
     //convert timerID to index for VTimers array
-    index = timerID % 58; //58 is first timer's id
+    index = timerID % TIMER_1; //TIMER_1 is first timer's id
     
     return index;
 }
