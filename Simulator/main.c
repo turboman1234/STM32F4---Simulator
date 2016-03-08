@@ -94,6 +94,7 @@ void TestUSART3Sending()
         USART_SendData(USART3, 'a');    
     }
 }
+
 unsigned char Buffer[256];
 void TestModBusMaster(void)
 {
@@ -116,8 +117,7 @@ void TestModBusMaster(void)
     InitRCC();
     InitVTimers();
     
-    InitTIM3();
-    InitUSART3();
+    InitUSART2(MB_MASTER_UNIT);
     
     InitLED(LED_1);
     InitLED(LED_2);
@@ -206,8 +206,8 @@ void TestRS232Slave(void)
     InitRCC();
     InitVTimers();
     
-    InitTIM4();
-    InitUSART3();
+//    InitTIM4();
+//    InitUSART3();
     
     InitLED(LED_1);
     InitLED(LED_2);
@@ -222,7 +222,7 @@ void TestRS232Slave(void)
     
     InitNewMBSlaveDevices();
     
-    RS232Init();
+    RS232InitHardwareAndProtocol();
     
     while(1)
     {
