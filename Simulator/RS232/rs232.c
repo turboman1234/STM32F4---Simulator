@@ -5,6 +5,7 @@
 #include "serial.h"
 #include "mytim.h"
 #include "rs232.h"
+#include "usart.h"
 
 
 static volatile unsigned short RS232RcvBufferPos;
@@ -69,10 +70,13 @@ BOOL RS232SlaveAddressRecognition(unsigned char recieveAddress)
     return isRecieveAddressValid;
 }
 
-void RS232Init(void)
-{    
+void RS232InitHardwareAndProtocol(void)
+{   
     RcvState = STATE_RX_IDLE;
     SndState = STATE_TX_IDLE;  
+    
+    InitTIM4();
+    InitUSART3();
 }	
 
 void RS232PollSlave( void )

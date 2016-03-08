@@ -2,7 +2,7 @@
 #define _RS232_H
 
 BOOL RS232SlaveAddressRecognition(unsigned char recieveAddress);
-void RS232Init(void);
+void RS232InitHardwareAndProtocol(void);
 void RS232PollSlave( void );
 void RS232ReceiveFSM( void );
 void RS232TimerExpired( void );

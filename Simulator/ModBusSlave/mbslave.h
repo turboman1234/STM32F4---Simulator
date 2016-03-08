@@ -30,7 +30,7 @@ void ClearModBusSlaveMemory(unsigned char *pMemory, int size);
 void CopyModBusMemory(unsigned char *source, unsigned char *destination, unsigned short cellsNumber);
 BOOL MBSlaveAddressRecognition(unsigned char recieveAddress);
 
-void MBInit(void);
+void MBInitHardwareAndProtocol(void);
 void MBPollSlave( void );
 void MBReceiveFSM( void );
 void MB_handle_request( void );

@@ -4,6 +4,7 @@
 #include "mbslave.h"
 #include "serial.h"
 #include "mytim.h"
+#include "usart.h"
 
 
 static volatile unsigned short MBRcvBufferPos;
@@ -126,12 +127,15 @@ BOOL MBSlaveAddressRecognition(unsigned char recieveAddress)
     return isRecieveAddressValid;
 }
 
-void MBInit(void)
+void MBInitHardwareAndProtocol(void)
 {    
     MBRcvState = STATE_RX_IDLE;
     MBSndState = STATE_TX_IDLE;  
     
     InitNewMBSlaveDevices();
+    
+    InitUSART2(MB_SLAVE_UNIT);
+    InitTIM3();
 }	
 
 void MBPollSlave( void )
