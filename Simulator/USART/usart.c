@@ -5,8 +5,14 @@
 #include "rs232.h"
 #include "usart.h"
 
-//USART_2 is for ModBus communication
-void InitUSART2(void)
+/*      USART_2 is for ModBus communication
+
+    int modBusUnitType - MB_MASTER_UNIT or MB_SLAVE_UNIT
+
+    ***MB_MASTER_UNIT - no need from interrupt controller
+    ***MB_SLAVE_UNIT - interrupt controller is needed
+*/
+void InitUSART2(int modBusUnitType)
 {
     GPIO_InitTypeDef MYGPIO;
     USART_InitTypeDef MYUSART;
@@ -19,16 +25,19 @@ void InitUSART2(void)
     GPIO_PinAFConfig(GPIOA, GPIO_PinSource3, GPIO_AF_USART2);
     
     /* TX pin*/
-    MYGPIO.GPIO_Mode = GPIO_Mode_AF;
-    MYGPIO.GPIO_Speed = GPIO_Speed_50MHz;
     MYGPIO.GPIO_Pin = GPIO_Pin_2;
+    MYGPIO.GPIO_Mode = GPIO_Mode_AF;
+    MYGPIO.GPIO_PuPd = GPIO_PuPd_UP;
+    MYGPIO.GPIO_OType = GPIO_OType_PP;
+    MYGPIO.GPIO_Speed = GPIO_Speed_50MHz;
     
     GPIO_Init(GPIOA, &MYGPIO);
     
     /* RX pin */
-    MYGPIO.GPIO_Mode = GPIO_Mode_AF;
-    MYGPIO.GPIO_Speed = GPIO_Speed_50MHz;
     MYGPIO.GPIO_Pin = GPIO_Pin_3;
+    MYGPIO.GPIO_Mode = GPIO_Mode_AF;
+    MYGPIO.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    MYGPIO.GPIO_Speed = GPIO_Speed_50MHz;
     
     GPIO_Init(GPIOA, &MYGPIO);
         
@@ -41,14 +50,27 @@ void InitUSART2(void)
     MYUSART.USART_WordLength = USART_WordLength_8b;
     USART_Init(USART2, &MYUSART);
     
-    USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
-    MYNVIC.NVIC_IRQChannel = USART2_IRQn;
-    MYNVIC.NVIC_IRQChannelCmd = ENABLE;
-    MYNVIC.NVIC_IRQChannelPreemptionPriority = 1;
-    MYNVIC.NVIC_IRQChannelSubPriority = 0;
-    USART_ClearFlag(USART2, USART_FLAG_RXNE);
-    USART_ClearITPendingBit(USART2, USART_IT_RXNE);
-    NVIC_Init(&MYNVIC);
+    
+    //When Usart is used for MB Master it must not be enable interrupt controller
+    // MB Master do not use interruptions to read slave's response
+    
+    if(modBusUnitType == MB_MASTER_UNIT)
+    {
+        USART_ITConfig(USART2, USART_IT_RXNE, DISABLE);
+    }
+    else if (modBusUnitType == MB_SLAVE_UNIT)
+    {
+        USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
+        
+        MYNVIC.NVIC_IRQChannel = USART2_IRQn;
+        MYNVIC.NVIC_IRQChannelCmd = ENABLE;
+        MYNVIC.NVIC_IRQChannelPreemptionPriority = 1;
+        MYNVIC.NVIC_IRQChannelSubPriority = 0;
+        USART_ClearFlag(USART2, USART_FLAG_RXNE);
+        USART_ClearITPendingBit(USART2, USART_IT_RXNE);
+        NVIC_Init(&MYNVIC);
+    }
+    
     
     USART_Cmd(USART2, ENABLE);	
 }

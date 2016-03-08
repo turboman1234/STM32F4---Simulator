@@ -9,8 +9,10 @@
 #define USART_BAUD_RATE_57600           57600
 #define USART_BAUD_RATE_115200          115200
 
+#define MB_MASTER_UNIT                  0xAAAA
+#define MB_SLAVE_UNIT                   0xBBBB
 
-void InitUSART2(void);
+void InitUSART2(int modBusUnitType);
 void InitUSART3(void);
 unsigned char recieveMyUSART(int usartID);
 unsigned char sendMyUSART(char *data, unsigned char count, int usartID, int timerType, int miliseconds);
